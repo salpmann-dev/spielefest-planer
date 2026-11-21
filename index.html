@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b5a38">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Spielefest">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" sizes="192x192" type="image/png" href="./icon-192.png">
+
+<meta name="description" content="Offline nutzbarer Spielefest-Planer für die FVM E1-Jugend, Jahrgang 2016. Mannschaften bilden, Felder berechnen und Spielpläne erstellen.">
+<title>FVM E1-Spielefest-Planer V16 | Jahrgang 2016</title>
+<style>
+:root{--green:#148653;--green-d:#075335;--green-xl:#e8f6ed;--ink:#162e25;--muted:#687b71;--line:#dce8df;--bg:#f4f7f4;--white:#fff;--orange:#b4680f;--orange-bg:#fff7e8;--red:#a3332d;--red-bg:#fff0ee;--blue:#22629b;--blue-bg:#edf5ff;--shadow:0 12px 40px rgba(18,67,43,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.48;cursor:not-allowed}a{color:var(--green-d)}.page{max-width:1320px;margin:0 auto;padding:0 28px 72px}
+.topbar{height:78px;display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}.logo-mark{width:40px;height:40px;border-radius:13px;background:var(--green-d);display:grid;place-items:center;font-size:21px;color:white;box-shadow:0 5px 16px rgba(9,99,59,.25)}.logo b{font-size:15px;letter-spacing:.02em}.logo small{display:block;color:var(--muted);font-size:11px;letter-spacing:.11em;text-transform:uppercase}.top-actions{display:flex;gap:9px;align-items:center}.mini-flag{display:inline-flex;gap:6px;align-items:center;border:1px solid #d4e7d9;background:#fff;border-radius:999px;color:#39865b;padding:6px 11px;font-size:12px;font-weight:700}.mini-flag:before{content:"";background:#25b774;border-radius:100%;width:7px;height:7px}
+.btn{border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;gap:9px;border-radius:11px;padding:10px 15px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap;transition:background .15s ease,transform .12s ease,box-shadow .15s}.btn:hover:not(:disabled){background:#f3faf5;transform:translateY(-1px)}.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a9dfbd;outline-offset:2px}.btn-primary{background:var(--green);color:white;border-color:var(--green);box-shadow:0 7px 20px #16865430}.btn-primary:hover:not(:disabled){background:#0c7546}.btn-ghost{background:transparent;border-color:#d3e7d8}.btn-icon{width:35px;padding:8px;font-size:18px}.btn-sm{padding:7px 10px;font-size:12px}.btn-wide{width:100%;padding:13px 16px;font-size:14px}.btn svg{width:15px;height:15px}
+.hero{background:linear-gradient(115deg,#0b5a38 0%,#13794c 58%,#19945c 100%);color:#fff;border-radius:24px;min-height:232px;position:relative;overflow:hidden;padding:36px 42px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;right:-6%;top:-90px;width:480px;height:430px;border:2px solid #ffffff22;border-radius:50%;box-shadow:0 0 0 72px #ffffff08,0 0 0 155px #ffffff06;pointer-events:none}.hero:before{content:"";position:absolute;width:2px;height:400px;right:15%;top:-90px;background:#ffffff10;transform:rotate(-33deg)}.hero-content{position:relative;z-index:1;max-width:680px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.19em;text-transform:uppercase;opacity:.8}.hero h1{font-size:clamp(30px,3.5vw,46px);line-height:1.08;letter-spacing:-.05em;margin:14px 0}.hero p{color:#e0f9eb;font-size:14px;max-width:560px;margin:0}.hero-icon{font-size:108px;line-height:1;filter:drop-shadow(0 10px 26px #06412455);transform:rotate(-13deg);position:relative;z-index:1;padding-right:30px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0 25px}.metric{background:white;border:1px solid var(--line);border-radius:17px;padding:18px 20px;min-height:102px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 14px #17493207}.metric .value{font-size:30px;font-weight:800;line-height:1.1;letter-spacing:-.04em}.metric .metric-label{color:var(--muted);font-size:12px;margin-top:8px}.metric .glyph{width:41px;height:41px;display:grid;place-items:center;border-radius:12px;background:var(--green-xl);color:var(--green);font-size:20px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 344px;gap:20px;align-items:start}.panel{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 15px rgba(10,54,28,.025);overflow:hidden}.panel+.panel{margin-top:18px}.panel-header{padding:23px 24px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.panel-header h2,.section-heading h2{font-size:19px;letter-spacing:-.028em;margin:0;line-height:1.2}.subtext{margin:7px 0 0;color:var(--muted);font-size:13px}.pill{display:inline-flex;background:var(--green-xl);color:var(--green-d);border-radius:999px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap}.panel-body{padding:4px 24px 24px}
+.data-table{width:100%;border-collapse:collapse;text-align:left}.data-table th{padding:11px 9px;color:#789083;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.095em;border-bottom:1px solid var(--line);white-space:nowrap}.data-table td{padding:10px 7px;border-bottom:1px solid #edf1ed;vertical-align:middle}.data-table tr:last-child td{border-bottom:0}.data-table tbody tr:hover{background:#fbfdfb}.table-scroll{overflow-x:auto}.club-table input{border:1px solid #dae6dd;background:#fff;border-radius:9px;padding:11px 10px;width:100%;min-width:125px;outline:none}.club-table .player-input{min-width:72px;max-width:100px;text-align:center;font-weight:750}.club-table .name-cell{min-width:205px}.club-table .label-cell{min-width:130px}.club-table td:last-child{width:38px}.club-table input::placeholder{color:#a4b3a8}.club-table .number-tag{font-size:12px;color:#9ab1a1;font-weight:750}.club-table .delete{background:#fff5f4;border:1px solid #f9e1df;color:var(--red);border-radius:9px;min-width:34px;height:36px;font-size:19px;line-height:1}.club-table .delete:hover{background:#ffe8e4}.table-bottom{margin-top:18px;display:flex;justify-content:space-between;gap:9px;align-items:center;flex-wrap:wrap}.muted{color:var(--muted)}.small{font-size:12px}.empty-table{text-align:center;padding:42px 18px;color:var(--muted);font-size:13px}.empty-table span{display:block;font-size:30px;margin-bottom:6px}.notice-bar{margin-top:17px;border-radius:12px;padding:11px 14px;border:1px solid #d5eada;background:#f4fbf6;font-size:12px;color:#47745a;display:flex;gap:10px;align-items:flex-start}
+.settings{padding:22px}.settings h2{font-size:19px;margin:0}.settings .panel-lead{margin:4px 0 19px;color:var(--muted);font-size:12px}.setting-row{display:grid;grid-template-columns:1fr 118px;gap:12px;align-items:center;margin-bottom:15px}.setting-row label{font-size:12px;font-weight:700}.hint{display:block;font-size:11px;font-weight:400;color:var(--muted);margin-top:2px}.setting-row input[type="number"],.setting-row input[type="time"]{width:100%;background:#fff;border:1px solid #dbe7df;border-radius:9px;padding:9px 10px;font-size:13px;color:var(--ink);font-weight:650}.setting-block-title{font-size:10px;color:#739483;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin:19px 0 13px;padding-top:16px;border-top:1px solid var(--line)}.toggle-line{display:flex;align-items:flex-start;gap:11px;margin:0 0 13px;cursor:pointer}.toggle-line input{appearance:none;flex:0 0 auto;margin:3px 0 0;width:33px;height:20px;border-radius:12px;background:#d4ded7;position:relative;transition:.2s}.toggle-line input:before{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;background:#fff;border-radius:50%;box-shadow:0 1px 2px #0002;transition:.2s}.toggle-line input:checked{background:var(--green)}.toggle-line input:checked:before{transform:translateX(13px)}.toggle-line span{font-size:12px;line-height:1.4;color:#3c5546}.toggle-line strong{display:block;color:var(--ink);font-size:12px}.toggle-line .tiny-note{font-size:11px;color:var(--muted);display:block;margin-top:2px}.settings .btn-wide{margin-top:14px}.settings-footnote{margin:12px 0 0;font-size:11px;color:#82948a;text-align:center}
+.results{margin-top:34px}.result-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}.section-kicker{font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.16em;font-weight:850;margin-bottom:8px}.result-top h2{font-size:26px;letter-spacing:-.04em;margin:0}.result-top p{font-size:13px;color:var(--muted);margin:4px 0 0}.result-stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:16px}.result-stat{background:white;border:1px solid var(--line);padding:17px 20px;border-radius:14px}.result-stat .number{font-size:28px;font-weight:850;letter-spacing:-.04em}.result-stat label{display:block;font-size:12px;color:var(--muted);margin-top:2px}.result-stat small{display:block;font-size:11px;color:var(--green);margin-top:7px}.messages{display:grid;gap:8px;margin:0 0 17px}.alert{padding:12px 16px;border-radius:12px;border:1px solid;display:flex;gap:10px;align-items:flex-start;font-size:12px}.alert .alert-icon{font-size:16px;line-height:1.2}.alert-warning{color:#92550f;background:var(--orange-bg);border-color:#f1dfb8}.alert-error{color:var(--red);background:var(--red-bg);border-color:#f4d3cf}.alert-info{color:var(--blue);background:var(--blue-bg);border-color:#d4e8fa}.two-col{display:grid;grid-template-columns:1.05fr .95fr;gap:17px;align-items:start}.output-panel{margin-bottom:17px}.output-panel .panel-header{padding-bottom:15px}.output-panel .panel-body{padding-top:0}.output-panel .panel-body > .table-scroll:first-child{margin-top:1px}.field-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.field-card{padding:15px;border:1px solid #dde9e0;border-radius:12px;background:#f9fcf9;display:flex;align-items:flex-start;gap:12px}.field-number{display:grid;place-items:center;width:38px;height:38px;background:#e0f5e7;border-radius:10px;color:var(--green-d);font-size:17px;font-weight:850}.field-card b{font-size:13px}.field-card p{margin:3px 0 0;font-size:12px;color:#758a7c}.field-card .count{display:inline-block;margin-top:5px;font-size:11px;color:#28764c;font-weight:750}.field-card.unused{opacity:.63;background:#f5f6f5}.field-card.field-big{background:#f1f9f3}.field-gear{font-size:12px;color:var(--muted);margin-top:12px;padding:11px 13px;border-radius:10px;background:#f7faf7;border:1px dashed #d9e8dc}.role{display:inline-flex;align-items:center;border-radius:6px;padding:3px 8px;background:#e8f4ff;color:#24679a;font-weight:750;font-size:10px}.role.mini{background:#e6f7ea;color:#217b42}.role.both{background:#e7f0ff;color:#365c95}.role.no{background:#fdf1ec;color:#bd563c}.squad-name{font-weight:800;font-size:13px}.squad-origin{font-size:11px;color:var(--muted);line-height:1.35;margin-top:2px}.data-table.output th{white-space:nowrap}.data-table.output td{font-size:12px}.data-table.output tr:hover{background:#f7fbf7}.data-table td.numeric,.data-table th.numeric{text-align:center}.badge-time{display:inline-block;background:#f1f5f2;border:1px solid #e3ebe5;padding:4px 7px;border-radius:6px;color:#415d49;font-size:11px;font-weight:750;white-space:nowrap}.round-heading{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:11px 12px;background:#f2f8f3;border-radius:10px;margin:12px 0 7px;font-size:12px}.round-heading b{font-size:13px}.game-row{display:grid;grid-template-columns:105px minmax(0,1fr) 26px minmax(0,1fr);align-items:center;gap:12px;padding:10px 12px;border-bottom:1px solid #edf2ed;font-size:12px}.game-row:last-child{border-bottom:0}.game-row .fieldname{font-size:11px;font-weight:750;color:#397550}.game-row .vs{color:#94a89a;text-align:center;font-weight:800}.game-row .a{text-align:right;font-weight:700}.game-row .b{text-align:left;font-weight:700}.game-row .fieldname small{font-weight:400;color:#8ca39a;display:block}.table-header-with-actions{align-items:center}.table-tools{display:flex;gap:7px;flex-wrap:wrap}.empty-result{margin:0;padding:24px;text-align:center;color:var(--muted);font-size:13px}.info-foot{font-size:12px;color:#73867b;padding:14px 17px;background:#f7faf8;border:1px solid var(--line);border-radius:11px;margin-top:14px}.footer{margin-top:34px;border-top:1px solid #dce7df;padding-top:18px;display:flex;justify-content:space-between;gap:15px;color:#809386;font-size:11px}.error-text{color:#a3322a}.success-text{color:#13844e}.pending{padding:11px 13px;background:#fff5eb;border-radius:10px;color:#92550f;margin-top:12px;font-size:12px}.no-results{padding:28px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:15px;color:var(--muted)}.hidden{display:none!important}.stale{margin:0 0 16px;background:#fff8ea;border:1px solid #f1dfbd;padding:11px 14px;border-radius:11px;color:#9b6719;font-size:12px}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.settings{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}.settings>h2,.settings>.panel-lead,.settings>.settings-footnote,.settings>.btn-wide,.settings>.setting-block-title{grid-column:1/-1}.settings>.setting-block-title{margin-bottom:10px}.settings>.toggle-line{min-height:50px}.settings .btn-wide{max-width:420px}.result-stat-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.page{padding:0 14px 40px}.topbar{height:66px}.top-actions .btn{font-size:0;gap:0;min-width:35px}.top-actions .btn svg{width:16px;height:16px}.top-actions .mini-flag{display:none}.hero{min-height:210px;padding:26px 24px}.hero-icon{font-size:55px;padding-right:0}.hero h1{font-size:32px}.hero p{font-size:12px}.metrics{grid-template-columns:repeat(2,1fr);gap:9px;margin:12px 0 16px}.metric{padding:14px;min-height:82px}.metric .value{font-size:24px}.metric .glyph{width:31px;height:31px;font-size:16px}.panel-header{padding:19px 17px 13px}.panel-body{padding:0 14px 18px}.settings{padding:18px;grid-template-columns:1fr 1fr}.setting-row{grid-template-columns:1fr;gap:5px}.setting-row input[type="time"],.setting-row input[type="number"]{width:100%}.two-col{grid-template-columns:1fr}.result-top h2{font-size:23px}.result-stat{padding:13px}.result-stat .number{font-size:23px}.result-stat-grid{gap:8px}.table-header-with-actions{align-items:flex-start;flex-direction:column}.club-table .name-cell{min-width:175px}.game-row{grid-template-columns:75px minmax(0,1fr) 18px minmax(0,1fr);gap:6px;padding:10px 4px;font-size:11px}.game-row .fieldname{font-size:10px}.footer{flex-direction:column}}
+@media(max-width:450px){.hero-icon{display:none}.hero h1{font-size:30px}.settings{grid-template-columns:1fr}.settings>.setting-block-title{grid-column:1}.setting-row{grid-template-columns:minmax(0,1fr) 115px}.settings>.toggle-line{grid-column:1}.result-stat-grid{grid-template-columns:repeat(2,1fr)}.mini-flag{display:none}.table-bottom .btn{width:100%}}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body{background:white;font-size:10pt}.page{max-width:none;padding:0}.topbar,.hero,.metrics,.layout,.result-top .btn,.table-tools,.no-print,.footer,.stale{display:none!important}.results{margin-top:0!important;display:block!important}.results:before{content:"FVM E1-SPIELEFEST-PLANER · Jahrgang 2016";display:block;font-size:18pt;font-weight:800;color:#145332;margin-bottom:15px}.result-top{margin-bottom:12px}.result-top h2{font-size:16pt}.result-stat-grid{grid-template-columns:repeat(4,1fr)}.result-stat{padding:10px}.result-stat .number{font-size:17pt}.messages .alert{padding:8px;font-size:9pt}.panel{box-shadow:none;border:1px solid #ccc;break-inside:avoid}.output-panel{break-inside:auto}.two-col{grid-template-columns:1fr 1fr;gap:10px}.output-panel .panel-header{padding:12px}.output-panel .panel-body{padding:0 12px 12px}.field-card{break-inside:avoid}.round-heading{break-after:avoid}.game-row{break-inside:avoid;padding:5px 8px}.data-table th,.data-table td{padding:5px 4px}.field-gear{margin-top:7px}.result-top p{color:#555}#matchSection{break-before:page}@page{size:A4 landscape;margin:10mm}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.break-row{padding:10px 12px;background:#fff8e9;border:1px dashed #ecd39d;border-radius:9px;color:#9d6720;font-size:12px;margin:8px 0 11px}
+
+.bye-row{padding:6px 12px 7px;color:#82968a;font-size:11px;font-style:italic;background:#fbfdfb}
+/* Prevent wide editable tables from stretching narrow mobile grid columns. */
+.layout,.entry-column,.settings,.panel,.panel-body,.table-scroll{min-width:0}
+@media(max-width:1050px){.layout{grid-template-columns:minmax(0,1fr)}}
+html,body{max-width:100%;overflow-x:clip}
+
+.group-detail{font-size:10px;font-weight:500;color:#789184;display:block;margin-top:3px}.round-note{font-size:11px;color:#247b52;font-weight:650;margin:5px 14px 11px}.round-block{break-inside:auto}.fieldcard-mini{border-left:3px solid #70ae80}.round-header-meta{display:flex;gap:8px;align-items:center}.formula{line-height:1.7}.no-print{print-color-adjust:exact}@media print{.round-block{break-inside:avoid}.group-detail{font-size:8px}.round-heading{margin:8px 0 3px}.round-note{margin-bottom:5px}}
+
+
+/* Home club selector fills the settings width and does not truncate club names. */
+.settings .home-setting{grid-template-columns:minmax(0,1fr);gap:6px}
+.settings .home-setting select{width:100%;min-width:0;padding:11px 12px;border:1px solid #dbe7df;border-radius:9px;background:#fff;color:var(--ink);font-size:13px;font-weight:650}
+.print-sheet{display:none}
+.field-layout-wrap{border:1px solid var(--line);background:#f7fbf8;border-radius:14px;padding:12px;overflow:auto}.field-layout-wrap svg{display:block;width:100%;height:auto}.field-layout-caption{font-size:12px;color:#6f8678;margin-top:10px}.pitch-label{font-size:12px;fill:#154c33;font-weight:800}.pitch-sublabel{font-size:10px;fill:#3d6a53}.pitch-small-label{font-size:9px;fill:#295a42}.club-total-grid{margin-top:12px;padding-top:12px;border-top:1px dashed #dbe7df}.extra-pitches{margin-top:10px;padding:11px 12px;border:1px dashed #b6cbbd;background:#fff;border-radius:9px;font-size:12px;color:#2c6445}.extra-field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:6px;margin-top:7px}.extra-field-grid span{border:1px solid #bddac7;background:#edf8ef;border-radius:5px;padding:7px 9px}
+@media print {
+ @page{size:A4 landscape;margin:12mm 12mm 13mm}
+ body{background:white;color:#152c20;font-size:9pt;overflow:visible!important}
+ html{overflow:visible!important}
+ .page{padding:0;max-width:none}
+ .page > :not(#printSheet){display:none!important}
+ #printSheet{display:block!important}
+ .print-title-bar{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #16623e;padding:1mm 0 3.5mm;margin:0 0 4mm}
+ .print-overline{color:#4b795d;font-size:8.2pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+ .print-title-bar h1{margin:1mm 0 0;font-size:20pt;letter-spacing:-.04em;color:#124b32}
+ .print-mark{font-size:23pt;line-height:1}
+ .print-meta{display:flex;gap:10mm;flex-wrap:wrap;margin-bottom:4mm;color:#2a4936;font-size:9pt}
+ .print-meta b{font-weight:800}
+ .print-plan{border-collapse:collapse;width:100%;table-layout:fixed;font-size:8.9pt}
+ .print-plan th{background:#eaf3ed;color:#1d5b3b;text-align:left;font-size:8pt;font-weight:800;letter-spacing:.035em;padding:2.1mm 2mm;border-bottom:1px solid #9fc3aa}
+ .print-plan td{padding:1.05mm 2mm;vertical-align:top;border-bottom:1px solid #e0e9e2;line-height:1.25;overflow-wrap:anywhere}
+ .print-plan th:nth-child(1),.print-plan td:nth-child(1){width:10%}
+ .print-plan th:nth-child(2),.print-plan td:nth-child(2){width:14%}
+ .print-plan th:nth-child(3),.print-plan td:nth-child(3){width:11%}
+ .print-plan th:nth-child(4),.print-plan td:nth-child(4){width:10%}
+ .print-plan th:nth-child(5),.print-plan td:nth-child(5){width:27.5%}
+ .print-plan th:nth-child(6),.print-plan td:nth-child(6){width:27.5%}
+ .print-plan tr.first-in-round td{border-top:1.1pt solid #8daf96;background:#f7faf7}
+ .print-plan td.round-cell{font-weight:800;color:#0d6a3d}
+ .print-plan td.time-cell{font-variant-numeric:tabular-nums;color:#294f3a}
+ .print-plan td.big-cell{font-weight:800;color:#19623f}
+ .print-plan .team-detail{font-weight:400;font-size:7.5pt;color:#73867a}
+ .print-plan thead{display:table-header-group}
+ .print-plan tr{break-inside:avoid;page-break-inside:avoid}
+ .print-footer{margin-top:3.5mm;border-top:1px solid #cadacb;padding-top:2mm;font-size:8pt;color:#5b7463}
+}
+
+/* Printable tournament pack: A4 portrait; flexible number of complete rounds per page. */
+@media print {
+  @page {size:A4 portrait; margin:12mm 12mm 13mm 12mm}
+  body,html {overflow:visible!important; background:white; font-size:9pt}
+  .page {width:auto; padding:0; max-width:none}
+  .page > :not(#printSheet) {display:none!important}
+  #printSheet {display:block!important; padding:0; margin:0}
+  .print-cover {break-after:page;page-break-after:always; break-inside:avoid}
+  .print-title-bar {margin-bottom:4mm; padding:0 0 3mm; gap:10mm}
+  .print-title-bar h1 {font-size:18pt}
+  .print-meta {gap:2mm 6mm; font-size:8.5pt; margin-bottom:4mm}
+  .print-section-title {font-size:11pt; color:#155a36; margin:4mm 0 2mm; font-weight:800}
+  .print-pitch-graphic {width:100%;padding:2mm;background:#f6faf7; border:1px solid #cfe4d6; border-radius:2mm}
+  .print-pitch-graphic svg {width:100%;height:auto;display:block;max-height:104mm}
+  .print-pitch-graphic .extra-pitches{margin-top:2mm;padding:2mm;border:1px solid #b9d3c1;font-size:8pt}
+  .print-pitch-graphic .extra-field-grid {grid-template-columns:repeat(4,minmax(0,1fr));gap:1mm}
+  .print-pitch-graphic .extra-field-grid span {padding:1mm 2mm;font-size:7.5pt}
+  .print-pitch-notes {font-size:7.8pt;color:#557062;margin-top:2mm}
+  .print-field-list {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2mm 5mm}
+  .print-field-list div {padding:1mm 2mm;background:#f5f9f5;border:1px solid #dfece2;font-size:8.2pt}
+  .print-small {font-size:7.5pt;line-height:1.3;color:#66796b;margin:4mm 0 0}
+  .print-round-page {break-before:auto;page-break-before:auto;break-inside:avoid;page-break-inside:avoid;display:block;width:100%;margin:0 0 2mm;padding:0 0 2mm}
+  .print-round-heading {display:flex;align-items:flex-end;justify-content:space-between;gap:12mm;border-bottom:2px solid #1b7346;padding-bottom:1.5mm;margin-bottom:2.5mm}
+  .print-round-heading h2 {font-size:13.5pt;letter-spacing:-.02em;color:#115b37;margin:0}
+  .print-round-heading .round-time {font-size:9pt;font-weight:800;color:#346748;white-space:nowrap}
+  .print-round-sub {font-size:8.5pt;color:#567765;margin:0 0 5mm}
+  .print-round-table {width:100%;border-collapse:collapse;table-layout:fixed;font-size:8pt}
+  .print-round-table thead th {background:#e6f2e9;color:#174d32;border-bottom:1.1pt solid #8bb79b;font-size:8pt;letter-spacing:.03em;text-align:left;padding:1.5mm 2mm}
+  .print-round-table tbody td {border-bottom:1px solid #dce8de;vertical-align:middle;padding:2mm 2mm;overflow-wrap:anywhere;line-height:1.3}
+  .print-round-table tbody tr {break-inside:avoid;page-break-inside:avoid}
+  .print-round-table th:first-child,.print-round-table td:first-child{width:20%}
+  .print-round-table th:nth-child(2),.print-round-table td:nth-child(2){width:20%}
+  .print-round-table th:nth-child(3),.print-round-table td:nth-child(3){width:30%}
+  .print-round-table th:nth-child(4),.print-round-table td:nth-child(4){width:30%}
+  .print-round-table .round-big td {background:#f4faf5;font-weight:750}
+  .print-round-table .print-team-name{display:block;font-weight:750;line-height:1.2}
+  .print-round-table .print-team-count{display:block;font-size:7.4pt;line-height:1.28;margin-top:.55mm;color:#38694c;font-weight:500;white-space:normal}
+  .print-round-table .round-big .print-team-count{font-weight:500}
+  .print-round-table.very-dense .print-team-count{font-size:6.8pt}
+  .print-round-footer {border-top:1px solid #dce8de;padding-top:3mm;color:#5f7865;font-size:8pt;margin-top:2mm}
+  .print-round-page.dense .print-round-table {font-size:8pt}
+  .print-round-page.dense .print-round-table tbody td {padding:2mm 2mm}
+  .print-round-page.very-dense .print-round-table {font-size:6.5pt}
+  .print-round-page.very-dense .print-round-table tbody td {padding:1mm 1mm}
+  .print-round-page.very-dense .print-round-heading {margin-bottom:2mm}
+  .print-round-page.very-dense .print-round-sub {margin-bottom:2mm}
+}
+
+.rules-panel{margin:22px 0 0}.rules-disclosure summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px;cursor:pointer;color:var(--ink)}.rules-disclosure summary::-webkit-details-marker{display:none}.rules-disclosure summary strong{font-size:14px;display:block}.rules-disclosure summary small{display:block;font-size:12px;color:var(--muted);margin-top:4px}.rules-content{border-top:1px solid var(--line);padding:17px 22px 22px;font-size:13px}.rules-content p{margin:0 0 14px}.rules-facts{padding:12px 14px;border-radius:9px;background:#f3f9f4;border:1px solid #d9e9dd;margin-top:14px;line-height:1.65}.rules-content .small{margin:12px 0 0}.print-pause-banner{margin:0 0 3mm;padding:2.4mm 3mm;border:1px solid #cba455;background:#fff5de;color:#754a0e;font-size:9pt;font-weight:800;break-inside:avoid}.print-round-page:has(.print-pause-banner){break-inside:avoid}.break-row.official-pause{border:2px solid #dca533;background:#ffedb5;color:#68430c;font-weight:800;text-align:center;font-size:14px;margin:14px 0 18px}
+
+/* Interactive changes to the 6+1 match within a round (no persisted state). */
+.round-edit{margin:9px 8px 12px;padding:13px 14px;border:1px solid #cfe6d6;background:#f6fbf7;border-radius:12px}
+.round-edit-caption{font-size:11px;font-weight:800;color:#256944;margin-bottom:9px}
+.round-edit-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:9px;align-items:end}
+.round-edit-field label{display:block;font-size:10px;font-weight:750;color:#577761;margin-bottom:4px}
+.round-edit-field select{display:block;width:100%;min-width:0;border-radius:9px;border:1px solid #bed9c8;background:#fff;color:#1c3d2a;padding:9px 10px;font-size:12px;font-weight:600}
+.round-edit .btn{padding:9px 13px;min-height:39px}
+.round-edit-result{margin-top:8px;font-size:12px;font-weight:600;min-height:0}
+.round-edit-result.error{color:#a3332d}.round-edit-result.success{color:#14794b}
+.round-edit-help{font-size:11px;margin:8px 0 0;color:#6c8371}
+.round-block.manually-edited .round-heading{box-shadow:inset 3px 0 0 #1a8c56}
+@media(max-width:720px){.round-edit-controls{grid-template-columns:minmax(0,1fr);gap:8px}.round-edit .btn{width:100%}}
+@media print{.round-edit{display:none!important}}
+/* Version 12: three-column configuration and portrait pitch beside formed teams. */
+.page{max-width:1640px;padding-left:22px;padding-right:22px}
+.layout{grid-template-columns:minmax(0,2.25fr) minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.layout>.entry-column,.layout>.settings{min-width:0;margin-top:0}
+.layout .settings{display:block;padding:21px}
+.layout .setting-row{grid-template-columns:minmax(0,1fr);gap:6px;margin-bottom:15px}
+.layout .settings .panel-lead{margin-bottom:19px}
+.layout .settings .toggle-line{min-height:0}
+.layout .settings .btn-wide{max-width:none}
+.layout .planning-options .toggle-line{margin-bottom:24px}
+.layout .planning-options .toggle-line strong{font-size:12px}
+.layout .planning-options .toggle-line .tiny-note{font-size:11px;line-height:1.5}
+.layout .planning-options .settings-footnote{text-align:left;margin-top:18px}
+.layout .club-table .name-cell{min-width:158px}
+.layout .club-table .label-cell{min-width:125px}
+.layout .club-table input{min-width:110px}
+.layout .club-table .player-input{min-width:68px;width:76px}
+.layout .club-table th,.layout .club-table td{padding-left:5px;padding-right:5px}
+.layout .table-bottom{gap:6px}
+.layout .table-bottom .btn{padding:10px 9px;font-size:11px}
+.result-detail-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:17px;align-items:start;margin-bottom:17px}
+.result-detail-grid>.panel{margin:0;min-width:0}
+.result-detail-grid .formed-teams-panel .data-table th{white-space:normal}
+.result-detail-grid .formed-teams-panel .data-table td{overflow-wrap:anywhere}
+.field-overview .field-list{grid-template-columns:repeat(auto-fit,minmax(175px,1fr))}
+.field-layout-panel .field-layout-wrap svg{display:block;width:100%;max-width:485px;height:auto;margin:0 auto}
+.plan-error{margin:10px 0 0;border:1px solid #edb6af;border-radius:10px;background:#fff0ee;color:#922b28;padding:11px 12px;font-size:12px;line-height:1.5}
+@media(max-width:1270px){
+ .layout{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px}
+ .layout>.planning-options{grid-column:1/-1}
+ .layout>.planning-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;align-items:start}
+ .layout>.planning-options>h2,.layout>.planning-options>.panel-lead,.layout>.planning-options>.settings-footnote{grid-column:1/-1}
+ .layout>.planning-options .toggle-line{margin-bottom:18px}
+}
+@media(max-width:850px){
+ .layout{grid-template-columns:minmax(0,1fr)}
+ .layout>.planning-options{grid-column:auto}
+ .layout>.settings{display:block}
+ .result-detail-grid{grid-template-columns:minmax(0,1fr)}
+ .field-layout-panel .field-layout-wrap svg{max-width:520px}
+}
+@media(max-width:560px){
+ .page{padding-left:14px;padding-right:14px}
+ .layout>.planning-options{display:block}
+ .layout>.settings .setting-row{grid-template-columns:minmax(0,1fr) minmax(0,118px)}
+ .layout>.settings .home-setting{grid-template-columns:minmax(0,1fr)}
+ .layout>.settings .toggle-line{margin-bottom:13px}
+ .layout .table-bottom .btn{width:100%;font-size:12px}
+ .field-overview .field-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .field-overview .field-card{padding:10px;gap:7px}
+ .field-overview .field-number{width:30px;height:30px;flex:0 0 30px}
+}
+@media print{#printPitchGraphic svg{width:auto;height:auto;max-width:100%;max-height:133mm;margin:0 auto}}
+.setting-constant{width:100%;border:1px solid #dbe7df;border-radius:9px;padding:9px 10px;background:#f4f8f5;color:var(--green-d);font-size:13px;font-weight:800;text-align:center}.setting-fixed-label{font-size:12px;font-weight:700}
+
+/* Ergebnisverfolgung – bewusst nur lokal im Arbeitsspeicher. */
+.results-tracking-note{font-size:12px;color:#40654f;margin-bottom:15px}
+.score-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 12px 10px;border-bottom:1px solid #edf2ed;background:#fafdfa}
+.score-row strong{font-size:11px;min-width:68px;color:#397550}
+.score-pair{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap;min-width:195px}
+.score-name{font-size:11px;font-weight:650;max-width:220px;overflow-wrap:anywhere}
+.score-input{width:54px!important;min-width:54px;border:1px solid #bcd8c6;border-radius:8px;padding:7px 5px;text-align:center;font-weight:800;font-size:14px;background:white;color:#175d38}
+.score-separator{font-size:16px;font-weight:800;color:#6e8878}
+.score-row .score-status{font-size:10px;color:#658673}
+.score-round-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:9px 12px;background:#f0f8f2;border-radius:0 0 10px 10px}
+.score-round-tools .btn{white-space:normal}
+.score-state{font-size:11px;font-weight:800;color:#26684a}
+.round-state-chip{font-size:10px;padding:3px 8px;border:1px solid #c2daca;border-radius:20px;background:#eaf5ef;color:#16603a;margin-left:8px}
+.round-state-chip.finished{background:#e5effb;color:#225b94;border-color:#bed6f2}
+.rankings td:first-child{font-weight:850}
+.rankings tr:nth-child(1) td{background:#fff2c7}
+.rankings tr:nth-child(2) td{background:#eef2f8}
+.rankings tr:nth-child(3) td{background:#fae8dc}
+.rankings td,.rankings th{white-space:nowrap}
+.ranking-details{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.ranking-details summary{cursor:pointer;color:#176a43;font-size:12px;font-weight:800;padding:8px 0}
+@media(max-width:700px){.score-row{align-items:flex-start}.score-pair{width:100%;flex-basis:100%}.score-name{max-width:calc(50% - 50px)}}
+@media print{#resultsTrackingPanel,.score-row,.score-round-tools,.round-state-chip{display:none!important}}
+
+/* V16: 6+1 edits are optional, collapsed in every round by default. */
+details.round-edit{display:block;padding:0;overflow:hidden}
+details.round-edit > summary{display:list-item;cursor:pointer;padding:11px 16px;list-style-position:inside;user-select:none}
+details.round-edit > summary::marker{color:#197044}
+details.round-edit:not([open]) > summary{margin:0}
+details.round-edit[open] > .round-edit-controls,details.round-edit[open] > .round-edit-result,details.round-edit[open] > .round-edit-help{margin-left:14px;margin-right:14px}
+@media print{details.round-edit{display:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <a class="logo" href="#anfang" aria-label="Zum Anfang">
+      <span class="logo-mark" aria-hidden="true">⚽</span>
+      <span><b>SPIELEFEST-PLANER</b><small>FVM · E1-Jugend · 2016</small></span>
+    </a>
+    <div class="top-actions no-print">
+      <span class="mini-flag">Offline nutzbar</span>
+      <button class="btn" id="printTop" title="Spielplan drucken" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 15h12v6H6z"/></svg>Drucken / PDF</button>
+      <button class="btn btn-primary" id="exportTop" title="Spielplan als CSV herunterladen" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg>CSV exportieren</button>
+    </div>
+  </header>
+  <section class="hero" id="anfang">
+    <div class="hero-content">
+      <div class="eyebrow">Kinderfußball · Turnierorganisation</div>
+      <h1>Jede Runde.<br>Alle Kinder im Spiel.</h1>
+      <p>Ein 6+1-Spiel pro Runde, alle anderen Kinder parallel im 4vs4. Ohne wartende Teams. Maximal 90 Minuten inklusive aller Pausen.</p>
+    </div>
+    <div class="hero-icon" aria-hidden="true">⚽</div>
+  </section>
+  <div class="metrics" aria-live="polite">
+    <div class="metric"><div><div class="value" id="statClubs">0</div><div class="metric-label">Vereinseingaben</div></div><div class="glyph" aria-hidden="true">♧</div></div>
+    <div class="metric"><div><div class="value" id="statKids">0</div><div class="metric-label">Gemeldete Kinder</div></div><div class="glyph" aria-hidden="true">♟</div></div>
+    <div class="metric"><div><div class="value" id="statTeams">–</div><div class="metric-label">Gebildete Teams</div></div><div class="glyph" aria-hidden="true">♙</div></div>
+    <div class="metric"><div><div class="value" id="statFields">–</div><div class="metric-label">Spielfelder</div></div><div class="glyph" aria-hidden="true">▥</div></div>
+  </div>
+  <main class="layout">
+    <div class="entry-column">
+      <section class="panel">
+        <div class="panel-header"><div><h2>Teilnehmende Vereine</h2><p class="subtext">Melde je Verein die tatsächliche Kinderzahl. Ab 12 Kindern entstehen zwei Großfeldteams. Pro Verein bitte auch die Anzahl verfügbarer Torhüter angeben.</p></div><span class="pill" id="clubCountBadge">0 Einträge</span></div>
+        <div class="panel-body">
+          <div class="table-scroll">
+            <table class="data-table club-table">
+              <thead><tr><th style="width:32px">Nr.</th><th>Verein</th><th>Kinder</th><th>TW</th><th>Mannschaft (optional)</th><th aria-label="Löschen"></th></tr></thead>
+              <tbody id="clubsBody"></tbody>
+            </table>
+          </div>
+          <div class="table-bottom no-print">
+            <button class="btn btn-primary" id="addClub">＋ Verein hinzufügen</button>
+            <button class="btn btn-ghost" id="example">Beispiel laden</button>
+            <button class="btn btn-ghost" id="reset">Alles zurücksetzen</button>
+          </div>
+          <div class="notice-bar"><span aria-hidden="true">ⓘ</span><span>Bis 11 Kinder: ein Großfeldteam. Ab 12 Kindern: zwei Großfeldteams. Bei 12/13 Kindern können zwei bzw. ein Kind zwischen den Schwesterteams für das Großfeld aushelfen.</span></div>
+        </div>
+      </section>
+</div>
+    <aside class="panel settings">
+      <h2>Spielefest einstellen</h2><p class="panel-lead">90 Minuten Gesamtzeit einschließlich aller Pausen; 2 Minuten Wechselpause sind fest eingestellt.</p>
+      <div class="setting-row"><label for="startTime">Startzeit<span class="hint">Beginn der ersten Runde</span></label><input id="startTime" type="time" value="10:00"></div>
+      <div class="setting-row home-setting"><label for="homeClub">Heimverein<span class="hint">Mindestens 2 Großfeldspiele je Team sind Pflicht; danach erhalten Heimteams Vorrang.</span></label><select id="homeClub"><option value="">Kein Heimverein ausgewählt</option></select></div>
+      <div class="setting-row"><label for="duration">Spielzeit<span class="hint">Minuten pro Begegnung</span></label><input id="duration" type="number" min="1" max="60" step="1" value="8"></div>
+      <div class="setting-row"><span class="setting-fixed-label">Wechselpause<span class="hint">Fest eingestellt · nicht änderbar</span></span><div class="setting-constant" role="status" aria-label="Wechselpause: 2 Minuten">2 Min.</div></div>
+      <div class="setting-row"><label for="recovery">Halbzeit-Erholung<span class="hint">0–10 Minuten, statt normaler Pause</span></label><input id="recovery" type="number" min="0" max="10" step="1" value="10"></div>
+      <div class="setting-row"><label for="fields">Verfügbare Felder<span class="hint">0 = automatisch bis zu 1 Großfeld + 3 Minifelder (60 × 105 m); mehr Felder manuell einstellen</span></label><input id="fields" type="number" min="0" max="80" step="1" value="0"></div>
+      <button class="btn btn-primary btn-wide" id="generate">⚽ &nbsp; Spielplan berechnen</button>
+      <p id="planError" class="plan-error hidden" role="alert" aria-live="assertive"></p>
+    </aside>
+    <aside class="panel settings planning-options">
+      <h2>Planungsoptionen</h2>
+      <p class="panel-lead">Einstellungen zur Mannschaftseinteilung</p>
+      <label class="toggle-line"><input type="checkbox" id="strict60" checked><span><strong>FVM: maximal 60 Spielminuten</strong><span class="tiny-note">Zusätzliche Grenze zur Gesamtzeit von 90 Minuten (konservativ je Kind berechnet)</span></span></label>
+      <label class="toggle-line"><input type="checkbox" id="trackResults"><span><strong>Ergebnisse verfolgen</strong><span class="tiny-note">Nur Großfeldspiele (6+1): Tore eintragen und Punkteübersicht anzeigen. Nur auf diesem Gerät.</span></span></label>
+      <label class="toggle-line"><input type="checkbox" id="avoidInternal" checked><span><strong>Vereinsinterne Duelle vermeiden</strong><span class="tiny-note">Vereinsübergreifende Minifeld-Begegnungen haben Vorrang.</span></span></label>
+      <label class="toggle-line"><input type="checkbox" id="allowExtraMini"><span><strong>4. Minifeld zulassen</strong><span class="tiny-note">Nur aktivieren, wenn geeignete Platz- oder Zusatzfläche vorhanden ist. Vorrang für vereinsreine 4vs4-Begegnungen.</span></span></label>
+      
+      <p class="settings-footnote">Keine Datenspeicherung. Alle Eingaben sind beim erneuten Öffnen leer.</p>
+    </aside>
+  </main>
+  <section class="panel rules-panel no-print" id="fvmRegeln" aria-label="FVM-Durchführungsbestimmungen">
+    <details class="rules-disclosure">
+      <summary><span><strong>FVM-Durchführungsbestimmungen E1-Jugend</strong><small>Originaldokument offline hinterlegt · 3 Seiten · zum Öffnen anklicken</small></span><span aria-hidden="true">⌄</span></summary>
+      <div class="rules-content">
+        <p>Das beigefügte offizielle PDF ist in dieser HTML-Datei enthalten. Du kannst es direkt herunterladen, ohne Internetverbindung.</p>
+        <button type="button" class="btn btn-primary" id="rulesDownload">Original-PDF herunterladen</button>
+        <div class="rules-facts"><b>Auszug aus den Bestimmungen:</b> 6+1 und parallel 4vs4, 8 Minuten Spielzeit je Runde, 1 Minute Wechselpause, Erholungspause bis 10 Minuten, höchstens 60 Minuten Spielzeit. Die Wechselpause ist im Planer organisatorisch fest auf 2 Minuten eingestellt. Ein Großfeld (ca. 55 × 35 m) und weitere Minifelder (ca. 35 × 25 m). Die vollständigen Regeln und Hinweise stehen im Originaldokument.</div>
+        <p class="small muted">Der Planer berücksichtigt deine organisatorischen Zusatzwünsche. Wenn Gruppen mit weniger als vier gleichzeitig spielenden Kindern erforderlich sind, entspricht das nicht der offiziellen E1-Spielform. Sie werden im Spielplan als „reduzierte Besetzung“ kenntlich gemacht.</p>
+      </div>
+    </details>
+  </section>
+  <script type="application/octet-stream" id="rulesPdfBase64">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</script>
+  <section id="results" class="results hidden" aria-live="polite">
+    <div id="staleMessage" class="stale hidden">Die Eingaben wurden geändert. Bitte den Spielplan neu berechnen.</div>
+    <div class="result-top"><div><div class="section-kicker">Berechnung abgeschlossen</div><h2>Dein Spielefest im Überblick</h2><p id="resultLead"></p></div><button class="btn btn-primary no-print" id="jumpSchedule">Zum Spielplan ↓</button></div>
+    <div id="resultStats" class="result-stat-grid"></div>
+    <section class="panel output-panel field-overview"><div class="panel-header"><div><h2>Spielfeldübersicht</h2><p class="subtext" id="fieldSummary"></p></div></div><div class="panel-body"><div id="fieldCards" class="field-list"></div><div id="fieldGear" class="field-gear"></div></div></section>
+    <div class="result-detail-grid">
+      <section class="panel output-panel field-layout-panel"><div class="panel-header"><div><h2>Aufbauplan für den Sportplatz</h2><p class="subtext" id="layoutLead"></p></div></div><div class="panel-body"><div id="fieldLayoutGraphic" class="field-layout-wrap"></div><div id="fieldLayoutNote" class="field-gear"></div></div></section>
+      <section class="panel output-panel formed-teams-panel"><div class="panel-header"><div><h2>Gebildete Teams</h2><p class="subtext" id="teamSummary"></p></div></div><div class="panel-body"><div class="table-scroll"><table class="data-table output"><thead><tr><th>Team / Verein</th><th class="numeric">Kinder</th><th>6+1 und 4vs4-Aufteilung</th></tr></thead><tbody id="teamRows"></tbody></table></div><div id="clubMiniOverview" class="field-gear"></div><div id="unassigned" class="pending hidden"></div></div></section>
+    </div>
+    <section class="panel output-panel" id="matchSection"><div class="panel-header table-header-with-actions"><div><h2>Spielplan nach Runden</h2><p class="subtext" id="scheduleLead"></p><p class="subtext no-print">6+1-Paarungen können innerhalb einer Runde angepasst werden. Bei Bedarf werden weitere Runden zur Einhaltung der Mindestspiele neu zugeordnet.</p></div><div class="table-tools no-print"><button class="btn btn-sm" id="printResult">Drucken / PDF</button><button class="btn btn-sm" id="csvResult">CSV herunterladen</button></div></div><div class="panel-body"><div id="scheduleRounds"></div></div></section>
+    <section class="panel output-panel hidden" id="resultsTrackingPanel"><div class="panel-header"><div><h2>6+1-Ergebnisse &amp; Punkteübersicht</h2><p class="subtext">Ergebnisse werden nur in diesem geöffneten Browser verwaltet. Automatische Wertung: Sieg 3 · Unentschieden 1 · Niederlage 0 Punkte.</p></div></div><div class="panel-body"><div id="trackingStatus" class="results-tracking-note"></div><div class="table-scroll"><table class="data-table output rankings"><thead><tr><th>Platz</th><th>Verein</th><th class="numeric">Sp.</th><th class="numeric">S</th><th class="numeric">U</th><th class="numeric">N</th><th class="numeric">Tore</th><th class="numeric">Diff.</th><th class="numeric">Punkte</th></tr></thead><tbody id="clubRankingRows"></tbody></table></div><details class="ranking-details"><summary>6+1-Teamwertung anzeigen</summary><div class="table-scroll"><table class="data-table output rankings"><thead><tr><th>Platz</th><th>6+1-Team</th><th class="numeric">Sp.</th><th class="numeric">Tore</th><th class="numeric">Diff.</th><th class="numeric">Punkte</th></tr></thead><tbody id="bigRankingRows"></tbody></table></div></details><p class="small muted">Es zählen ausschließlich Ergebnisse der 6+1-Spiele auf Feld 1. Minifeldspiele werden nicht erfasst oder gewertet.</p></div></section>
+    <section class="panel output-panel"><div class="panel-header"><div><h2>Einsatzübersicht je Team</h2><p class="subtext">Mindestens zwei 6+1-Spiele je Team, soweit mit den Pflichtbedingungen möglich. Heimteams werden nach Erfüllung dieses Ziels bevorzugt.</p></div></div><div class="panel-body"><div class="table-scroll"><table class="data-table output"><thead><tr><th>Team</th><th class="numeric">6+1-Spiele</th><th class="numeric">Mini-Runden</th><th class="numeric">Mini-Spiele</th><th class="numeric">Aktive Runden</th><th class="numeric">Max. Einsatzdauer</th></tr></thead><tbody id="deploymentRows"></tbody></table></div><p class="info-foot">Gesamtdauer: maximal 90 Minuten mit Wechsel- und Erholungspausen. Bei aktivierter FVM-Grenze höchstens 60 potenzielle Spielminuten je Kind. Kinder in 4vs4-Gruppen mit mehr als vier Mitgliedern rotieren während des Spiels; kein Kind pausiert für eine ganze Runde.</p></div></section>
+    <p class="info-foot">Grundlage: <strong>FVM-Durchführungsbestimmungen E1-Jugend</strong> (vom Nutzer bereitgestellt) und die ausdrücklich beschriebenen Ergänzungen zur 4er-Einteilung. Offizielle FVM-Kader- und Rotationsangaben können von diesem Wunschmodell abweichen. Der Veranstalter prüft die zulässige Durchführung vor Ort.</p>
+  </section>
+  <footer class="footer"><span>FVM E1-Spielefest-Planer · Jahrgang 2016</span><span>Privates Organisationswerkzeug · nicht offizielles FVM-Angebot</span></footer>
+  <section id="printSheet" class="print-sheet" aria-hidden="true">
+    <article class="print-cover">
+      <div class="print-title-bar"><div><div class="print-overline">FVM · E1-Jugend · Jahrgang 2016</div><h1>Spielefest – Aufbauplan</h1></div><div class="print-mark">⚽</div></div>
+      <div id="printMeta" class="print-meta"></div>
+      <h2 class="print-section-title">Spielfeldaufteilung · 60 × 105 m</h2>
+      <div id="printPitchGraphic" class="print-pitch-graphic"></div>
+      <h2 class="print-section-title">Feldübersicht</h2>
+      <div id="printFieldList" class="print-field-list"></div>
+    </article>
+    <div id="printRoundPages"></div>
+  </section>
+</div>
+<script>
+'use strict';
+/* E1 game festival scheduler. HARD CONSTRAINTS: every child belongs to exactly one
+   6+1 squad or one club-pure mini-group in each round. Mixed-club mini-groups
+   are forbidden. Unsatisfiable rounds are never published. */
+const DEFAULTS=Object.freeze({startTime:'10:00',homeClub:'',duration:8,changeover:2,recovery:10,fields:0,strict60:true,fillMiniRounds:true,allowExtraMini:false,rollingKeeper13:true,avoidInternal:true});
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const pairKey=(a,b)=>[Math.min(a,b),Math.max(a,b)].join('-');
+const sum=a=>a.reduce((x,y)=>x+y,0);
+const clock=m=>{let d=Math.floor(m/1440),v=((m%1440)+1440)%1440;return `${String(Math.floor(v/60)).padStart(2,'0')}:${String(v%60).padStart(2,'0')}`+(d>0?` (+${d} T)`:'');};
+function makeTeams(entries,options={}){
+ const issues=[],unassigned=[],teams=[],clubs=[],byKey=new Map();let grandTotal=0;
+ for(const row of entries){
+  const name=String(row.name||'').trim(),count=Number(row.count),keepers=Number(row.keepers??1);
+  if(!name||!Number.isInteger(count)||count<1)continue;
+  grandTotal+=count;const key=name.toLocaleLowerCase('de').replace(/\s+/g,' ');
+  if(!byKey.has(key)){const c={id:clubs.length,key,name,count:0,keepers:0,teamIds:[],entryIds:[]};clubs.push(c);byKey.set(key,c);}
+  const c=byKey.get(key);c.count+=count;c.keepers+=Number.isInteger(keepers)&&keepers>=0?keepers:0;c.entryIds.push(row.id);
+ }
+ for(const club of clubs){
+  if(club.count<7){unassigned.push({name:club.name,count:club.count});issues.push({type:'error',text:`${club.name}: mindestens 7 Kinder erforderlich.`});continue;}
+  // 7–11: 1 team; 12–13: two linked squads; 14+: two big squads.
+  const n=club.count>=12?2:1;
+  const sizes=n===1?[club.count]:club.count===12?[7,5]:club.count===13?[7,6]:[Math.ceil(club.count/2),Math.floor(club.count/2)];
+  for(let i=0;i<n;i++){
+   const size=sizes[i],id=teams.length,children=Array.from({length:size},(_,j)=>({id:`${id}-${j+1}`,team:id,number:j+1,club:club.id}));
+   teams.push({id,clubId:club.id,club:club.name,name:`${club.name} ${i+1}`,size,children,keepers:club.keepers});club.teamIds.push(id);
+  }
+  if(club.count===12||club.count===13){
+   const [a,b]=club.teamIds;teams[a].rollingKeeperLendsTo=b;teams[b].rollingKeeperBorrowFrom=a;
+   teams[b].borrowCount=7-teams[b].size;club.rollingKeeper=true;
+  }
+  if(club.keepers<1)issues.push({type:'error',text:`${club.name} hat keinen Torwart gemeldet. Großfeldspiele dieses Vereins sind nicht möglich.`});
+ }
+ return {teams,clubs,issues,unassigned,grandTotal,enteredClubs:entries.length};
+}
+
+function totalDuration(n,s){if(n===0)return 0;return n*s.duration+(n-1)*s.changeover+(n>=4?Math.max(0,s.recovery-s.changeover):0);}
+function maxRoundCount(s){let cap=0;for(let i=1;i<=120;i++){if(totalDuration(i,s)>90 || (s.strict60&&i*s.duration>60))break;cap=i;}return cap;}
+function miniOptions(n){if(n===0)return [0];if(n<4)return [];const low=Math.ceil(n/7),high=Math.floor(n/4);return Array.from({length:high-low+1},(_,i)=>low+i);}
+/* Fully allocate each club without cross-club mixing if possible.
+   4vs4 groups hold 4–7 players, 3vs3 groups 3–6. Both modes
+   need even total group counts to form matched pairs. */
+function partitionPools(pools,maxMiniFields,maxFour=7){
+ const cap=Math.min(160,Math.max(0,Math.floor(maxMiniFields))*2);
+ let dp=new Map([['0:0',{n4:0,n3:0,path:[]}]]);
+ for(const pool of pools){
+  const n=pool.children.length,opts=[];
+  if(n===0)opts.push({g4:0,g3:0});
+  for(let g4=0;g4<=Math.min(Math.floor(n/4),cap);g4++){
+   for(let g3=0;g3<=Math.min(Math.floor(n/3),cap-g4);g3++){
+    if(!g4&&!g3)continue;
+    // Two complete 4vs4 groups are mandatory for a free 13-child rolling-GK club.
+    if(pool.rollingKeeper&&n===13&&(g4!==2||g3!==0))continue;
+    if(4*g4+3*g3<=n&&maxFour*g4+6*g3>=n)opts.push({g4,g3});
+   }
+  }
+  if(!opts.length)return {ok:false,reason:`${pool.name} hat ${n} freie Kinder. Auch eine reduzierte Minifeld-Besetzung erlaubt hier keine vollständige vereinsreine Gruppe.`};
+  const next=new Map();
+  for(const state of dp.values())for(const o of opts){
+   const n4=state.n4+o.g4,n3=state.n3+o.g3;
+   if(n4+n3>cap)continue;
+   const key=n4+':'+n3;
+   if(!next.has(key))next.set(key,{n4,n3,path:[...state.path,o]});
+  }
+  dp=next;
+  if(!dp.size)return {ok:false,reason:'Die vorhandenen Minifelder reichen nicht für alle freien Kinder.'};
+ }
+ const candidates=[...dp.values()].filter(v=>v.n4%2===0&&v.n3%2===0&&v.n4+v.n3>0);
+ if(!candidates.length){
+  const empty=pools.every(p=>!p.children.length);
+  if(empty)return {ok:true,groupCounts:pools.map(()=>({g4:0,g3:0})),groupCount:0,minigames:0,threeGames:0};
+  return {ok:false,reason:'Vereinsreine Minifeld-Gruppen lassen sich mit dieser Feldanzahl nicht vollständig paaren.'};
+ }
+ candidates.sort((a,b)=>a.n3-b.n3||b.n4-a.n4||(a.n4+a.n3)-(b.n4+b.n3));
+ const win=candidates[0];
+ return {ok:true,groupCounts:win.path,groupCount:win.n4+win.n3,minigames:(win.n4+win.n3)/2,threeGames:win.n3/2};
+}
+function splitMiniPool(children,counts,round,maxFour=7){
+ // For a club using the 13-child exception, preserve its two distinct 4vs4
+ // rosters of six and seven children whenever neither is on the big field.
+ if(children.length===13&&counts.g4===2&&counts.g3===0){
+  const byTeam=new Map();
+  for(const child of children){if(!byTeam.has(child.team))byTeam.set(child.team,[]);byTeam.get(child.team).push(child);}
+  const squads=[...byTeam.values()];
+  if(squads.length===2&&squads.map(a=>a.length).sort((a,b)=>a-b).join(',')==='6,7'){
+   return squads.map(group=>{
+    const shift=(round*2)%group.length;
+    return {mode:'4vs4',active:4,max:maxFour,children:group.slice(shift).concat(group.slice(0,shift))};
+   });
+  }
+ }
+ const specs=[...Array(counts.g4).fill({mode:'4vs4',active:4,max:maxFour}),...Array(counts.g3).fill({mode:'3vs3',active:3,max:6})];
+ const sizes=specs.map(x=>x.active);
+ let left=children.length-sum(sizes),i=0;
+ while(left>0&&specs.length){
+  const pos=i%specs.length;
+  if(sizes[pos]<specs[pos].max){sizes[pos]++;left--;}
+  i++;
+ }
+ if(left!==0)throw new Error('Gruppengröße konnte nicht verteilt werden');
+ let source=children.slice();
+ if(source.length){const offset=(round*3)%source.length;source=source.slice(offset).concat(source.slice(0,offset));}
+ const result=[];let at=0;
+ for(let j=0;j<specs.length;j++){result.push({...specs[j],children:source.slice(at,at+sizes[j])});at+=sizes[j];}
+ return result;
+}
+function availableFor(teams,clubs,big,round=0){
+ const taken=new Set(big?[big.a,big.b]:[]),pools=new Map(clubs.map(c=>[c.id,{id:c.id,name:c.name,rollingKeeper:Boolean(c.rollingKeeper),children:[]}])) ,loans=new Map();
+ for(const t of teams)if(taken.has(t.id)&&t.rollingKeeperBorrowFrom!==undefined){
+  const sister=teams[t.rollingKeeperBorrowFrom],need=t.borrowCount||1;
+  if(!sister||taken.has(sister.id)||sister.children.length<need)return {error:'Die benötigten Springer sind gleichzeitig anderweitig eingeplant.'};
+  const rotated=sister.children.slice(round%sister.children.length).concat(sister.children.slice(0,round%sister.children.length));
+  loans.set(sister.id,rotated.slice(0,need));
+ }
+ const bigPlayers=[];
+ for(const t of teams){
+  if(taken.has(t.id)){
+   if(t.keepers<1)return {error:`${t.club} hat keinen verfügbaren Torwart gemeldet.`};
+   // 7–10 children all participate as big-field squad. From 11 onward only 7.
+   const keep=t.size<=10?t.size:7,own=t.children.slice(0,keep);
+   const borrowed=t.rollingKeeperBorrowFrom!==undefined?(loans.get(t.rollingKeeperBorrowFrom)||[]):[];
+   const players=[...own,...borrowed];
+   if(players.length<7)return {error:`${t.name}: Für 6+1 fehlen ${7-players.length} Kinder.`};
+   bigPlayers.push({team:t.id,players,starters:players.slice(0,7),rotation:players.length-7,
+    keeperBorrowed:borrowed.length?{fromTeam:t.rollingKeeperBorrowFrom,childIds:borrowed.map(k=>k.id),count:borrowed.length}:null});
+   pools.get(t.clubId).children.push(...t.children.slice(keep));
+  }else{
+   const loaned=new Set((loans.get(t.id)||[]).map(k=>k.id));
+   pools.get(t.clubId).children.push(...t.children.filter(k=>!loaned.has(k.id)));
+  }
+ }
+ return {pools:[...pools.values()].filter(p=>p.children.length),bigPlayers};
+}
+
+function solveRound(teams,clubs,big,miniFields,round,history,allowEight=false,avoidInternal=true){
+ const available=availableFor(teams,clubs,big,round);
+ if(available.error)return {ok:false,reason:available.error};
+ // No spare pools: a valid big-field-only round can still be scheduled.
+ let partition=available.pools.length?partitionPools(available.pools,miniFields,7):{ok:true,groupCounts:[],groupCount:0,minigames:0,threeGames:0};
+ let maxFour=7;
+ // A group of 4 players + 4 substitutes is allowed ONLY when the ordinary
+ // club-pure partition of this round cannot be completed without it.
+ if(!partition.ok&&allowEight){
+  const lastResort=partitionPools(available.pools,miniFields,8);
+  if(lastResort.ok){partition=lastResort;maxFour=8;}
+ }
+ let mixedFallback=false;
+ if(!partition.ok){
+  // Emergency-only mixed team: combine available substitutes only if pure clubs
+  // cannot form complete pairings. No big-field player is ever available here.
+  const all=available.pools.flatMap(p=>p.children);
+  const cap=Math.min(miniFields*2,Math.floor(all.length/3));
+  let specs=null;
+  for(let g=Math.min(cap,Math.floor(all.length/4));g>=2;g--){
+   if(g%2===0&&all.length<=g*8){specs={g4:g,g3:0};break;}
+  }
+  if(!specs)for(let g=cap;g>=2;g--)if(g%2===0&&all.length<=g*6){specs={g4:0,g3:g};break;}
+  if(!specs)return {ok:false,reason:partition.reason};
+  partition={ok:true,groupCounts:[],groupCount:specs.g4+specs.g3,minigames:(specs.g4+specs.g3)/2,threeGames:specs.g3/2};
+  mixedFallback=specs;
+ }
+ const units=[];
+ const groupSources=mixedFallback?[{id:-1,name:'Springer-Auswahl',children:available.pools.flatMap(p=>p.children)}]:available.pools;
+ groupSources.forEach((pool,i)=>{
+  splitMiniPool(pool.children,mixedFallback||partition.groupCounts[i],round,mixedFallback?8:maxFour).forEach((part,j)=>{
+   const children=part.children;
+   // Mixed groups are allowed only after the club-pure partition failed.
+   if(!mixedFallback&&children.some(child=>child.club!==pool.id))throw new Error('Unzulässige vereinsübergreifende Minigruppe');
+   units.push({id:`r${round}-c${pool.id}-g${j+1}`,clubId:pool.id,club:pool.name,name:mixedFallback&&new Set(children.map(c=>c.club)).size>1?`Springer-Mischteam ${j+1}`:`${children.length?teams[children[0].team].club:pool.name} · Gruppe ${j+1}`,size:children.length,active:part.active,mode:part.mode,rotators:children.length-part.active,children,teamIds:[...new Set(children.map(ch=>ch.team))]});
+  });
+ });
+ const matches=[];
+ // Pair 4vs4 with 4vs4, and 3vs3 with 3vs3 — never mixed modes.
+ for(const mode of ['4vs4','3vs3']){
+  const waiting=units.filter(g=>g.mode===mode);
+  while(waiting.length>=2){
+   let bestI=0,bestJ=1,best=-Infinity;
+   const cnt=new Map();for(const u of waiting)cnt.set(u.clubId,(cnt.get(u.clubId)||0)+1);
+   for(let i=0;i<waiting.length;i++)for(let j=i+1;j<waiting.length;j++){
+    const a=waiting[i],b=waiting[j],same=a.clubId===b.clubId;
+    const key=[a.clubId,b.clubId].sort((x,y)=>x-y).join('-');
+    const score=(same?0:(avoidInternal?10000:0))+30*((cnt.get(a.clubId)||0)+(cnt.get(b.clubId)||0))-150*(history.get(mode+':'+key)||0)+(i*19+j*7+round*23)%13;
+    if(score>best){best=score;bestI=i;bestJ=j;}
+   }
+   const second=waiting.splice(bestJ,1)[0],first=waiting.splice(bestI,1)[0];
+   const key=mode+':'+[first.clubId,second.clubId].sort((a,b)=>a-b).join('-');
+   matches.push({aGroup:first,bGroup:second,internal:first.clubId===second.clubId,key,mode,repeated:(history.get(key)||0)>0,field:matches.length+2});
+  }
+  if(waiting.length)return {ok:false,reason:'Ungerade Anzahl Minigruppen für '+mode};
+ }
+ const used=new Set();
+ for(const bp of available.bigPlayers)for(const kid of bp.players)used.add(kid.id);
+ for(const match of matches)for(const g of [match.aGroup,match.bGroup])for(const kid of g.children){
+  if(used.has(kid.id))return {ok:false,reason:'Doppelte Kinderzuordnung verhindert.'};used.add(kid.id);
+ }
+ const expected=sum(teams.map(t=>t.size));
+ if(used.size!==expected)return {ok:false,reason:`Nicht alle Kinder sind eingeteilt (${used.size}/${expected}).`};
+ return {ok:true,big,bigPlayers:available.bigPlayers,mini:matches,mixedFallback:Boolean(mixedFallback),assigned:used.size,miniGroupCount:units.length,threeGames:matches.filter(m=>m.mode==='3vs3').length,eightGroups:units.filter(g=>g.mode==='4vs4'&&g.size===8).length};
+}
+/* Optimize field-1 fixtures as a SET before ordering them into rounds.
+   Primary: as many 6+1 squads as possible with >=2 games.
+   Secondary: host's least-used squad gets priority, then host's total games.
+   Never play the same fixture twice or schedule same-club 6+1 fixtures. */
+function chooseBigFixtures(fixtures,teams,home,maxRounds){
+ const n=teams.length,k=Math.min(maxRounds,fixtures.length),m=fixtures.length;
+ if(k===0)return [];
+ const homeIds=home?teams.filter(t=>t.clubId===home.id).map(t=>t.id):[];
+ const awayIds=teams.filter(t=>!home||t.clubId!==home.id).map(t=>t.id);
+ const degrees=Array(n).fill(0);
+ const score=()=>{
+  const covered=degrees.reduce((v,d)=>v+Math.min(d,2),0);
+  const reached=degrees.filter(d=>d>=2).length;
+  const hmin=homeIds.length?Math.min(...homeIds.map(id=>degrees[id])):0;
+  const htotal=homeIds.reduce((v,id)=>v+degrees[id],0);
+  const awayMax=awayIds.length?Math.max(...awayIds.map(id=>degrees[id])):0;
+  const variance=degrees.reduce((v,d)=>v+d*d,0);
+  return [covered,reached,hmin,htotal,-awayMax,-variance];
+ };
+ const better=(a,b)=>{if(!b)return true;for(let j=0;j<a.length;j++){if(a[j]!==b[j])return a[j]>b[j];}return false;};
+ let best=null,bestIds=[];
+ const evaluate=ids=>{
+  const base=score(),three=ids.reduce((n,id)=>n+(fixtures[id].check?.threeGames||0),0);
+  const quality=[...base,-three];
+  if(better(quality,best)){best=quality;bestIds=ids.slice();}
+ };
+ const combinations=(total,amount,limit)=>{let out=1;for(let i=1;i<=amount;i++){out*=((total-amount+i)/i);if(out>limit)return out;}return out;};
+ if(combinations(m,k,450000)<=450000){
+  const chosen=[];
+  function dfs(from,remaining){
+   if(remaining===0){evaluate(chosen);return;}
+   for(let i=from;i<=m-remaining;i++){
+    const p=fixtures[i];degrees[p.a]++;degrees[p.b]++;chosen.push(i);
+    dfs(i+1,remaining-1);
+    chosen.pop();degrees[p.a]--;degrees[p.b]--;
+   }
+  }
+  dfs(0,k);
+ }else{
+  // Deterministic multi-start optimizer for larger tournaments. The local
+  // exchange pass improves a complete set without sacrificing any higher rule.
+  const maxRestarts=Math.min(52,Math.max(16,m));
+  for(let seed=0;seed<maxRestarts;seed++){
+   const chosen=[],picked=new Set();degrees.fill(0);
+   while(chosen.length<k){
+    let candidate=-1,bestPartial=null;
+    for(let j=0;j<m;j++)if(!picked.has(j)){
+     const p=fixtures[j];degrees[p.a]++;degrees[p.b]++;
+     const arr=score();
+     const h=home&&((teams[p.a].clubId===home.id)||(teams[p.b].clubId===home.id));
+     const partial=[arr[0], arr[1], arr[2],arr[3],arr[4], -(j*19+seed*31)%97 + (h&&seed%5===0?1:0)];
+     degrees[p.a]--;degrees[p.b]--;
+     if(better(partial,bestPartial)){bestPartial=partial;candidate=j;}
+    }
+    if(candidate<0)break;
+    chosen.push(candidate);picked.add(candidate);
+    degrees[fixtures[candidate].a]++;degrees[fixtures[candidate].b]++;
+   }
+   let improved=true,steps=0;
+   while(improved&&steps++<k*3){
+    improved=false;
+    for(let pos=0;pos<chosen.length;pos++){
+     const old=chosen[pos],p=fixtures[old];
+     degrees[p.a]--;degrees[p.b]--;picked.delete(old);
+     let replacement=old,top=null;
+     for(let j=0;j<m;j++)if(!picked.has(j)){
+      const q=fixtures[j];degrees[q.a]++;degrees[q.b]++;
+      const s=score();if(better(s,top)){top=s;replacement=j;}
+      degrees[q.a]--;degrees[q.b]--;
+     }
+     const selected=fixtures[replacement];
+     degrees[selected.a]++;degrees[selected.b]++;picked.add(replacement);
+     chosen[pos]=replacement;
+     if(replacement!==old)improved=true;
+    }
+   }
+   evaluate(chosen);
+  }
+ }
+ const result=bestIds.map(id=>fixtures[id]);
+ // Keep matches involving the host early and rotate its own squads evenly.
+ const d=Array(n).fill(0),ordered=[];
+ while(result.length){
+  result.sort((x,y)=>{
+   const xh=home&&(teams[x.a].clubId===home.id||teams[x.b].clubId===home.id)?1:0;
+   const yh=home&&(teams[y.a].clubId===home.id||teams[y.b].clubId===home.id)?1:0;
+   if(xh!==yh)return yh-xh;
+   const dx=d[x.a]+d[x.b],dy=d[y.a]+d[y.b];
+   return dx-dy||x.a-y.a||x.b-y.b;
+  });
+  const p=result.shift();d[p.a]++;d[p.b]++;ordered.push(p);
+ }
+ return ordered;
+}
+function buildPlan(rows,userSettings={}){
+ const s={...DEFAULTS,...userSettings};s.duration=clamp(Number(s.duration)||8,1,60);
+ s.changeover=2;s.recovery=clamp(Number(s.recovery)||0,0,10);
+ s.fields=clamp(Number(s.fields)||0,0,80);s.strict60=s.strict60!==false;s.fillMiniRounds=true;s.allowExtraMini=s.allowExtraMini===true;s.rollingKeeper13=true;s.homeClub=String(s.homeClub||'').trim().toLocaleLowerCase('de').replace(/\s+/g,' ');
+ const roster=makeTeams(rows,s),teams=roster.teams,clubs=roster.clubs.filter(c=>c.teamIds.length),issues=[...roster.issues];
+ const home=clubs.find(c=>c.key===s.homeClub)||null;
+ const bigCandidates=[];
+ for(let i=0;i<teams.length;i++)for(let j=i+1;j<teams.length;j++)if(teams[i].clubId!==teams[j].clubId)bigCandidates.push({a:i,b:j,key:pairKey(i,j)});
+ const maxRounds=maxRoundCount(s),idealCapacity=120;
+ // 60 × 105 m with usable margins: one 55 × 35 m main field plus
+ // three 35 × 25 m mini fields. More requires additional suitable area.
+ const pitchMiniLimit=s.allowExtraMini?4:3,miniCapacity=s.fields?Math.max(0,s.fields-1):pitchMiniLimit;
+ const idealBig=bigCandidates.map(pair=>({...pair,check:solveRound(teams,clubs,pair,idealCapacity,0,new Map(),true,s.avoidInternal!==false)}));
+ const potentialBig=idealBig.filter(p=>p.check.ok);
+ const miniOnlyIdeal=teams.length?solveRound(teams,clubs,null,idealCapacity,0,new Map(),true,s.avoidInternal!==false):{ok:false,reason:'Keine Teams'};
+ const standardBig=bigCandidates.map(pair=>({...pair,check:solveRound(teams,clubs,pair,miniCapacity,0,new Map(),false,s.avoidInternal!==false)})).filter(p=>p.check.ok);
+ const expandedBig=bigCandidates.map(pair=>({...pair,check:solveRound(teams,clubs,pair,miniCapacity,0,new Map(),true,s.avoidInternal!==false)})).filter(p=>p.check.ok);
+ // The 8-child exception is considered globally only when standard groups
+ // cannot provide two 6+1 appearances to EVERY team.
+ const minimumMissing=fixtures=>{
+  const d=Array(teams.length).fill(0);
+  for(const f of fixtures){d[f.a]++;d[f.b]++;}
+  return d.filter(x=>x<2).length;
+ };
+ const standardSelected=chooseBigFixtures(standardBig,teams,home,maxRounds);
+ const standardMissing=minimumMissing(standardSelected);
+ const expandedSelected=standardMissing?chooseBigFixtures(expandedBig,teams,home,maxRounds):[];
+ const expandedMissing=standardMissing?minimumMissing(expandedSelected):0;
+ const useEightException=standardMissing>0&&expandedMissing<standardMissing;
+ const selectedFixtures=useEightException?expandedSelected:standardSelected;
+ const feasibleBig=useEightException?expandedBig:standardBig;
+ const miniOnlyCheck=teams.length?solveRound(teams,clubs,null,miniCapacity,0,new Map(),true,s.avoidInternal!==false):{ok:false};
+ const desiredMinis=Math.max(0,...selectedFixtures.map(f=>f.check.mini.length),s.fillMiniRounds&&selectedFixtures.length<maxRounds&&miniOnlyCheck.ok?miniOnlyCheck.mini.length:0);
+ const recommended=teams.length?1+Math.min(pitchMiniLimit,desiredMinis||Math.min(pitchMiniLimit,Math.max(...potentialBig.map(f=>f.check.mini.length),0))):0;
+ const fieldsCount=s.fields||recommended;
+ const fields=Array.from({length:fieldsCount},(_,i)=>({id:i+1,type:i?'mini':'big',name:i?'Minifeld':'Großfeld'}));
+ const gameHistory=new Map(),degrees=Array(teams.length).fill(0),clubBigCount=new Map(),scheduled=new Set(),rounds=[];
+ const maxPotential=bigCandidates.length;
+ if(!teams.length)issues.push({type:'error',text:'Keine spielberechtigten 6+1-Teams vorhanden. Pro Verein werden mindestens 7 Kinder benötigt.'});
+ if(roster.unassigned.length)issues.push({type:'error',text:'Einige Vereine mit weniger als 7 Kindern wurden nicht eingeplant. Die Bedingung „alle Kinder spielen“ ist damit für alle Meldungen nicht erfüllbar.'});
+ if(s.duration!==8)issues.push({type:'warning',text:`Spieldauer ${s.duration} statt der vorgeschriebenen 8 Minuten.`});
+ // Organisatorische Festvorgabe: immer 2 Minuten Wechselpause (FVM-Original: 1 Minute).
+ if(!s.strict60)issues.push({type:'warning',text:'Die FVM-Grenze von maximal 60 Spielminuten je Team ist deaktiviert. Die Gesamtdauer von 90 Minuten bleibt verbindlich.'});
+ if(teams.length)issues.push({type:'info',text:'Minifelder: Vorrang für 4vs4 mit vereinsreinen Gruppen und höchstens drei Rotationsspielern; nötigenfalls reduzierte Besetzung. Nur als letzte Ausnahme ist eine 8er-Gruppe mit 4 Spielenden und 4 Wechselspielern erlaubt. Das weicht von den FVM-Kadervorgaben ab.'});
+ if(clubs.some(c=>c.teamIds.length>1))issues.push({type:'info',text:'Großfeldspiele innerhalb desselben Vereins sind ausgeschlossen; vereinsinterne 4vs4-Begegnungen sind erlaubt.'});
+ issues.push({type:'info',text:'Vereinsreine Gruppen haben Vorrang. Nur bei sonst nicht vollständig besetzbaren Runden sind Springer-Mischteams möglich. Reguläre 4vs4-Gruppen haben Vorrang; Wiederholungen in den letzten Runden sind ausdrücklich erlaubt.'});
+ if(s.fields&&s.fields<recommended)issues.push({type:'warning',text:`${s.fields} Felder eingestellt; ${recommended} wären für die vollständige Belegung günstig.`});
+ if(s.allowExtraMini&&!s.fields)issues.push({type:'info',text:'Das zusätzliche vierte Minifeld wird nur eingeplant, sofern genügend geeignete Spielfläche und Sicherheitsabstände vorhanden sind.'});
+ if(s.fields>4)issues.push({type:'warning',text:'Mehr als drei Minifelder benötigen zusätzliche geeignete Fläche bzw. einen sehr engen Aufbau; bitte Sicherheitsabstände und Nutzung vor Ort prüfen.'});
+ if(teams.length&&potentialBig.length&&!feasibleBig.length)issues.push({type:'warning',text:'Auf dem verfügbaren Platz kann keine 6+1-Runde mit vollständigen vereinsreinen Minigruppen stattfinden. Zusätzliche Spielfelder können manuell eingetragen werden.'});
+ for(const fixture of selectedFixtures){
+  if(rounds.length>=maxRounds)break;
+  const plan=solveRound(teams,clubs,fixture,miniCapacity,rounds.length,gameHistory,useEightException,s.avoidInternal!==false);
+  if(!plan.ok)continue;
+  rounds.push({...plan,number:rounds.length+1,kind:'parallel'});
+  scheduled.add(fixture.key);degrees[fixture.a]++;degrees[fixture.b]++;
+  for(const id of [fixture.a,fixture.b])clubBigCount.set(teams[id].clubId,(clubBigCount.get(teams[id].clubId)||0)+1);
+  for(const m of plan.mini)gameHistory.set(m.key,(gameHistory.get(m.key)||0)+1);
+ }
+ // Fill remaining rounds with pure club mini-teams. Repeated 4vs4 pairings are
+ // intentional and preferred to any cross-club group (which is forbidden).
+ if(s.fillMiniRounds&&teams.length){
+  while(rounds.length<maxRounds){
+   let plan=solveRound(teams,clubs,null,miniCapacity,rounds.length,gameHistory,true,s.avoidInternal!==false);
+   if(!plan.ok||!plan.mini.length)break;
+   rounds.push({...plan,number:rounds.length+1,kind:'miniOnly'});
+   for(const m of plan.mini)gameHistory.set(m.key,(gameHistory.get(m.key)||0)+1);
+  }
+ }
+ if(teams.length&&!rounds.length)issues.push({type:'error',text:`Es gibt keine zulässige Runde, in der alle Kinder gleichzeitig spielen können. ${feasibleBig.length===0?'Keine vollständig belegbare Großfeldrunde. ':''}${!miniOnlyIdeal.ok?miniOnlyIdeal.reason:'Prüfe die Anzahl der verfügbaren Felder und die Mannschaftszahlen.'}`});
+ const underTwo=teams.filter(t=>degrees[t.id]<2);
+ const publishable=teams.length>0&&!roster.unassigned.length&&!underTwo.length&&rounds.length>0;
+ const eightGroupCount=rounds.reduce((total,r)=>total+r.mini.reduce((n,m)=>n+(m.aGroup.size===8?1:0)+(m.bGroup.size===8?1:0),0),0);
+ if(eightGroupCount){issues.push({type:'warning',text:`Letzte Ausnahme: ${eightGroupCount} 4vs4-Gruppe(n) mit jeweils 8 Kindern, davon 4 Wechselspielern. Im Spielplan und Export ist die tatsächliche Kinderzahl sichtbar. Laut FVM sind maximal 3 Rotationsspieler vorgesehen.`});}
+ if(!publishable){
+  if(underTwo.length)issues.push({type:'error',text:`KEIN FREIGEGEBENER SPIELPLAN: Mindestens zwei 6+1-Spiele sind für jedes Team verpflichtend. Nicht erfüllt: ${underTwo.map(t=>t.name+' ('+degrees[t.id]+'/2)').join(', ')}. Prüfe zusätzliche Minifelder, weitere Gegner oder die Kinderzahlen. Es werden keine unvollständigen Spielrunden veröffentlicht oder exportiert.`});
+  // Never publish a partial fixture list that violates the minimum.
+  rounds.length=0;
+  scheduled.clear();
+  clubBigCount.clear();
+  degrees.fill(0);
+ }
+ if(potentialBig.length<maxPotential){issues.push({type:'warning',text:`${maxPotential-potentialBig.length} von ${maxPotential} vereinsübergreifenden Großfeldbegegnungen können nicht stattfinden, weil dabei nicht alle übrigen Kinder eine 4vs4-Begegnung erhalten würden.`});}
+ if(feasibleBig.length<potentialBig.length){issues.push({type:'warning',text:`${potentialBig.length-feasibleBig.length} grundsätzlich mögliche Großfeldbegegnungen sind mit ${fieldsCount} Feld(ern) nicht vollständig spielbar.`});}
+ if(home){
+  const hostTeams=teams.filter(t=>t.clubId===home.id);
+  const guestTeams=teams.filter(t=>t.clubId!==home.id);
+  const minHost=hostTeams.length?Math.min(...hostTeams.map(t=>degrees[t.id])):0;
+  const maxGuest=guestTeams.length?Math.max(...guestTeams.map(t=>degrees[t.id])):0;
+  if(minHost<=maxGuest)issues.push({type:'info',text:`Heimverein ${home.name}: ${hostTeams.map(t=>t.name+' '+degrees[t.id]).join(', ')} 6+1-Spiele; höchster Gäste-Einsatz: ${maxGuest}. Der Plan bevorzugt zuerst mindestens zwei Spiele für möglichst alle Teams, danach zusätzliche Einsätze des Heimvereins.`});
+ }
+ if(publishable&&scheduled.size<maxPotential&&maxPotential>0){issues.push({type:'warning',text:`Großfeld: ${scheduled.size} von ${maxPotential} zulässigen vereinsübergreifenden Paarungen eingeplant. ${maxPotential-scheduled.size} entfallen durch Gesamtzeit-, Spielzeit-, Feld- oder Vollbelegungsgrenzen. Keine Begegnung wird doppelt angesetzt.`});}
+ if(!s.fillMiniRounds&&rounds.length<maxRounds)issues.push({type:'info',text:'Zusätzliche reine Minifeldrunden sind ausgeschaltet.'});
+ if(teams.length&&rounds.length<maxRounds&&s.fillMiniRounds&&!miniOnlyIdeal.ok)issues.push({type:'warning',text:'Auch wiederholte vereinsreine Minifeldspiele erlauben keine zusätzliche vollständige Runde: '+miniOnlyIdeal.reason});
+ if(teams.length&&rounds.length<maxRounds&&s.fillMiniRounds&&miniOnlyIdeal.ok&&miniOnlyIdeal.mini.length>miniCapacity)issues.push({type:'warning',text:`Für wiederholte Minifeldrunden sind mindestens ${miniOnlyIdeal.mini.length} Minifelder nötig; aktuell sind es ${miniCapacity}.`});
+ const startPart=String(s.startTime||'10:00').split(':').map(Number),start=(startPart[0]||0)*60+(startPart[1]||0);
+ const breakIndex=rounds.length>=4?3:0;let time=start;let games=[];const roundTimes=[];
+ rounds.forEach((r,i)=>{
+  if(i>0)time+=i===breakIndex?Math.max(s.changeover,s.recovery):s.changeover;
+  let begin=time,end=time+s.duration;
+  r.begin=clock(begin);r.end=clock(end);
+  roundTimes.push({round:i+1,begin:r.begin,end:r.end,beginMinutes:begin,endMinutes:end});
+  if(r.big)games.push({round:i+1,field:1,venue:'big',a:r.big.a,b:r.big.b,begin:r.begin,end:r.end});
+  for(const m of r.mini)games.push({round:i+1,field:m.field,venue:'mini',mode:m.mode,aGroup:m.aGroup,bGroup:m.bGroup,internal:m.internal,repeated:m.repeated,begin:r.begin,end:r.end});
+  time=end;
+ });
+ const perTeam=teams.map(t=>{
+  const big=rounds.filter(r=>r.big&&(r.big.a===t.id||r.big.b===t.id)).length;
+  const miniRounds=rounds.filter(r=>r.mini.some(m=>m.aGroup.teamIds.includes(t.id)||m.bGroup.teamIds.includes(t.id))).length;
+  const miniGames=sum(rounds.map(r=>r.mini.filter(m=>m.aGroup.teamIds.includes(t.id)||m.bGroup.teamIds.includes(t.id)).length));
+  return {id:t.id,club:t.club,name:t.name,size:t.size,big,miniRounds,miniGames,gameCount:rounds.length,minutes:rounds.length*s.duration};
+ });
+ const miniMatchCount=games.filter(g=>g.venue==='mini').length;
+ const threeMatchCount=games.filter(g=>g.venue==='mini'&&g.mode==='3vs3').length;
+ if(totalDuration(rounds.length,s)>90)issues.push({type:'error',text:'Interner Fehler: 90-Minuten-Grenze überschritten.'});
+ if(teams.length&&rounds.length===maxRounds&&maxRounds>0)issues.push({type:'info',text:`Zeitbudget ausgeschöpft: ${rounds.length} Runden, ${rounds.length*s.duration} Spielminuten je Kind als konservative Obergrenze und ${totalDuration(rounds.length,s)} Minuten Gesamtzeit inklusive Pausen.`});
+ return {settings:s,homeClub:home?home.name:null,homeBigMatches:home?(clubBigCount.get(home.id)||0):0,clubBigCount,teams,roster,issues,fields:fields.map(f=>({...f,matches:games.filter(g=>g.field===f.id).length})),fieldCount:fieldsCount,
+ recommendation:{recommended,mini:Math.max(0,recommended-1)},rounds,games,roundTimes,perTeam,gameLimit:maxRounds,
+ totalPotential:maxPotential,distinctPairs:scheduled.size,allGamesComplete:scheduled.size===maxPotential,omitted:bigCandidates.filter(x=>!scheduled.has(x.key)),
+ publishable,eightGroupCount:publishable?eightGroupCount:0,useEightException:publishable&&useEightException,bigMatchCount:scheduled.size,miniMatchCount,threeMatchCount,repeatMiniCount:games.filter(g=>g.venue==='mini'&&g.repeated).length,internalMatches:games.filter(g=>g.internal).length,
+ breakIndex,finish:rounds.length?rounds.at(-1).end:s.startTime,start:s.startTime,totalMinutes:rounds.length?time-start:0,
+ everyChildEveryRound:rounds.every(r=>r.assigned===sum(teams.map(t=>t.size))),maxDuration:90};
+}
+/* Change a scheduled big-field pairing while preserving ALL hard requirements:
+   two 6+1 games per squad; no same-club or repeated big fixture; children each round
+   exactly once; enough mini pitches, 90-minute limit, no mixed-club mini groups.
+   Existing manual big-field edits remain locked. Other rounds may be adjusted if needed. */
+function updateBigRound(original,roundNumber,first,second){
+ const fail=reason=>({ok:false,reason});
+ if(!original||!original.publishable||!original.rounds.length)return fail('Zuerst einen gültigen Spielplan erstellen.');
+ const round=Number(roundNumber)-1,a=Number(first),b=Number(second),teams=original.teams;
+ if(!Number.isInteger(round)||round<0||round>=original.rounds.length||!original.rounds[round].big)return fail('In dieser Runde gibt es kein 6+1-Spiel zum Ändern.');
+ if(!Number.isInteger(a)||!Number.isInteger(b)||!teams[a]||!teams[b]||a===b)return fail('Bitte zwei unterschiedliche Großfeldteams auswählen.');
+ if(teams[a].clubId===teams[b].clubId)return fail('6+1-Begegnungen zwischen Teams desselben Vereins sind nicht zulässig.');
+ const requested={a,b,key:pairKey(a,b)},old=original.rounds[round].big;
+ if(requested.key===pairKey(old.a,old.b))return fail('Diese beiden Teams spielen in dieser Runde bereits gegeneinander.');
+ const cap=original.fieldCount-1,clubs=original.roster.clubs.filter(c=>c.teamIds.length);
+ if(original.totalMinutes>90)return fail('Der bestehende Zeitrahmen überschreitet 90 Minuten.');
+ const eligible=new Map();
+ for(let i=0;i<teams.length;i++)for(let j=i+1;j<teams.length;j++){
+  if(teams[i].clubId===teams[j].clubId)continue;
+  const pair={a:i,b:j,key:pairKey(i,j)};
+  const trial=solveRound(teams,clubs,pair,cap,0,new Map(),true,original.settings.avoidInternal!==false);
+  if(trial.ok)eligible.set(pair.key,{...pair,eight:trial.eightGroups});
+ }
+ if(!eligible.has(requested.key))return fail('Die neue Begegnung lässt sich nicht mit vollständig vereinsreinen Minifeldgruppen auf den verfügbaren Feldern kombinieren.');
+ const bigPositions=original.rounds.map((r,i)=>r.big?i:-1).filter(i=>i>=0);
+ const oldBig=new Map(bigPositions.map(i=>[i,original.rounds[i].big]));
+ const lockSet=new Set((original.editedRounds||[]).filter(i=>i!==round));
+ const assignment=new Map();
+ const forced=new Map([[round,eligible.get(requested.key)]]);
+ for(const i of lockSet){
+  const pair=oldBig.get(i);
+  if(pair&&!eligible.has(pairKey(pair.a,pair.b)))return fail(`Die bereits geänderte Runde ${i+1} kann nicht mehr zulässig eingeplant werden.`);
+  if(pair)forced.set(i,eligible.get(pairKey(pair.a,pair.b)));
+ }
+ const forcedKeys=new Set();
+ for(const p of forced.values()){
+  if(forcedKeys.has(p.key))return fail('Diese 6+1-Begegnung ist bereits in einer zuvor manuell festgelegten Runde eingeplant.');
+  forcedKeys.add(p.key);
+ }
+ const options=[...eligible.values()];
+ const remaining=bigPositions.filter(i=>!forced.has(i));
+ const homeName=original.homeClub;
+ const homeIds=teams.filter(t=>t.club===homeName).map(t=>t.id);
+ const guestIds=teams.filter(t=>t.club!==homeName).map(t=>t.id);
+ const beamWidth=teams.length<=12?1600:700;
+ const initialDegrees=Array(teams.length).fill(0);
+ for(const p of forced.values()){initialDegrees[p.a]++;initialDegrees[p.b]++;}
+ const prefix=new Map(forced),oldPair=i=>pairKey(oldBig.get(i).a,oldBig.get(i).b);
+ const initialUsed=new Set(forcedKeys);
+ let states=[{degrees:initialDegrees,used:initialUsed,picks:prefix,changes:0,eight:[...forced.values()].reduce((n,p)=>n+p.eight,0)}];
+ // Home games are a tiebreaker; user-selected matchup and the 2-game minimum take precedence.
+ const score=st=>{
+  const counts=st.degrees;
+  const covered=counts.reduce((sum,d)=>sum+Math.min(d,2),0);
+  const hmin=homeIds.length?Math.min(...homeIds.map(i=>counts[i])):0;
+  const htotal=homeIds.reduce((sum,i)=>sum+counts[i],0);
+  const maxGuest=guestIds.length?Math.max(...guestIds.map(i=>counts[i])):0;
+  return [-st.changes,covered,hmin,htotal,-maxGuest,-st.eight];
+ };
+ const cmp=(x,y)=>{const sx=score(x),sy=score(y);for(let i=0;i<sx.length;i++)if(sx[i]!==sy[i])return sy[i]-sx[i];return 0;};
+ for(let ri=0;ri<remaining.length;ri++){
+  const index=remaining[ri],oldKey=oldPair(index),rest=remaining.length-ri-1,next=[];
+  for(const st of states){
+   for(const candidate of options){
+    if(st.used.has(candidate.key))continue;
+    const degrees=st.degrees.slice();degrees[candidate.a]++;degrees[candidate.b]++;
+    if(degrees.some(d=>d+rest<2))continue;
+    const used=new Set(st.used);used.add(candidate.key);
+    const picks=new Map(st.picks);picks.set(index,candidate);
+    next.push({degrees,used,picks,changes:st.changes+(candidate.key!==oldKey?1:0),eight:st.eight+candidate.eight});
+   }
+  }
+  if(!next.length)return fail('Für diese Änderung lässt sich kein vollständiger Spielplan mit mindestens zwei 6+1-Spielen pro Team erstellen. Bitte eine andere Paarung wählen.');
+  next.sort(cmp);
+  states=next.slice(0,beamWidth);
+ }
+ const valid=states.filter(st=>st.degrees.every(d=>d>=2)).sort(cmp);
+ if(!valid.length)return fail('Die neue Paarung würde die Mindestanzahl von zwei 6+1-Spielen für mindestens ein Team unterschreiten. Auch mit Anpassungen anderer Runden ist kein gültiger Plan möglich.');
+ const chosen=valid[0];
+ const history=new Map(),nextRounds=[];
+ for(let i=0;i<original.rounds.length;i++){
+  const previous=original.rounds[i],big=chosen.picks.get(i)||null;
+  const plan=solveRound(teams,clubs,big,cap,i,history,true,original.settings.avoidInternal!==false);
+  if(!plan.ok)return fail(`Runde ${i+1} lässt sich nach der Änderung nicht vollständig aufteilen: ${plan.reason}`);
+  nextRounds.push({...plan,number:previous.number,kind:big?'parallel':'miniOnly',begin:previous.begin,end:previous.end});
+  for(const m of plan.mini)history.set(m.key,(history.get(m.key)||0)+1);
+ }
+ if(nextRounds.some(r=>r.assigned!==teams.reduce((n,t)=>n+t.size,0)))return fail('Nicht alle Kinder sind in jeder Runde eingeteilt.');
+ const games=[],clubBigCount=new Map(),current=new Set();
+ for(const r of nextRounds){
+  if(r.big){
+   if(current.has(r.big.key))return fail('Eine 6+1-Begegnung wäre doppelt.');
+   current.add(r.big.key);
+   clubBigCount.set(teams[r.big.a].clubId,(clubBigCount.get(teams[r.big.a].clubId)||0)+1);
+   clubBigCount.set(teams[r.big.b].clubId,(clubBigCount.get(teams[r.big.b].clubId)||0)+1);
+   games.push({round:r.number,field:1,venue:'big',a:r.big.a,b:r.big.b,begin:r.begin,end:r.end});
+  }
+  for(const m of r.mini)games.push({round:r.number,field:m.field,venue:'mini',mode:m.mode,aGroup:m.aGroup,bGroup:m.bGroup,internal:m.internal,repeated:m.repeated,begin:r.begin,end:r.end});
+ }
+ const perTeam=teams.map(t=>{
+  const big=nextRounds.filter(r=>r.big&&(r.big.a===t.id||r.big.b===t.id)).length;
+  const miniRounds=nextRounds.filter(r=>r.mini.some(m=>m.aGroup.teamIds.includes(t.id)||m.bGroup.teamIds.includes(t.id))).length;
+  const miniGames=sum(nextRounds.map(r=>r.mini.filter(m=>m.aGroup.teamIds.includes(t.id)||m.bGroup.teamIds.includes(t.id)).length));
+  return {id:t.id,club:t.club,name:t.name,size:t.size,big,miniRounds,miniGames,gameCount:nextRounds.length,minutes:nextRounds.length*original.settings.duration};
+ });
+ if(perTeam.some(t=>t.big<2))return fail('Die Mindestanzahl von zwei Großfeldspielen pro Team wäre nicht erreicht.');
+ const eightGroupCount=nextRounds.reduce((count,r)=>count+r.eightGroups,0);
+ const threeMatchCount=games.filter(g=>g.venue==='mini'&&g.mode==='3vs3').length;
+ const miniMatchCount=games.filter(g=>g.venue==='mini').length;
+ const changed=bigPositions.filter(i=>oldPair(i)!==chosen.picks.get(i).key).map(i=>i+1);
+ const issues=original.issues.filter(x=>!/^Letzte Ausnahme:|^Großfeld:|^Heimverein .*6\+1-Spiele/.test(x.text));
+ if(eightGroupCount)issues.push({type:'warning',text:`Letzte Ausnahme: ${eightGroupCount} Minifeld-Gruppe(n) mit 8 Kindern und 4 Wechselspielern (FVM-Abweichung).`});
+ issues.push({type:'info',text:`Manuell angepasst: Runde ${round+1}. ${changed.length>1?`Zum Erhalt von mindestens zwei Großfeldspielen je Team wurden außerdem ${changed.filter(x=>x!==round+1).map(x=>'Runde '+x).join(', ')} angepasst.`:'Die übrigen 6+1-Spiele konnten unverändert bleiben.'}`});
+ const homeClub=original.roster.clubs.find(c=>c.name===original.homeClub);
+ const editedRounds=[...new Set([...(original.editedRounds||[]),round])].sort((x,y)=>x-y);
+ const result={...original,rounds:nextRounds,games,clubBigCount,perTeam,issues,editedRounds,
+  fields:original.fields.map(f=>({...f,matches:games.filter(g=>g.field===f.id).length})),
+  eightGroupCount,useEightException:eightGroupCount>0,bigMatchCount:current.size,
+  distinctPairs:current.size,allGamesComplete:current.size===original.totalPotential,
+  omitted:original.omitted||[],miniMatchCount,threeMatchCount,
+  repeatMiniCount:games.filter(g=>g.venue==='mini'&&g.repeated).length,
+  internalMatches:games.filter(g=>g.internal).length,
+  homeBigMatches:homeClub?(clubBigCount.get(homeClub.id)||0):0,
+  everyChildEveryRound:true,publishable:true};
+ return {ok:true,plan:result,changedRounds:changed};
+}
+if(typeof window!=='undefined')window.FVMCore={DEFAULTS,makeTeams,buildPlan,updateBigRound,clock,miniOptions,partitionPools,maxRoundCount,totalDuration};
+if(typeof module!=='undefined'&&module.exports)module.exports={DEFAULTS,makeTeams,buildPlan,updateBigRound,clock,miniOptions,partitionPools,maxRoundCount,totalDuration,solveRound};
+
+</script>
+<script>
+'use strict';
+(() => {
+ const settingIds=['startTime','homeClub','duration','recovery','fields','strict60','allowExtraMini','avoidInternal'];
+ let clubs=[],settings={...FVMCore.DEFAULTS},nextId=1,latest=null,stale=false,lastUpdatedRound=0,lastChangeSummary='',trackResults=false,scoreData=new Map(),roundStates=new Map();
+ const el=id=>document.getElementById(id);
+ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const plural=(n,one,many)=>`${n} ${n===1?one:many}`;
+ const fmtDuration=n=>`${n} Min.`;
+ const modeLabel=mode=>mode==='4vs4'?'4vs4':'Minifeld (3 je Seite)';
+ function applySettings(){for(const id of settingIds){const x=el(id);if(x.type==='checkbox')x.checked=Boolean(settings[id]);else x.value=settings[id];}}
+ function renderHomeChoices(){
+  const select=el('homeClub'),previous=select.value||settings.homeClub||'',seen=new Set(),options=[];
+  for(const c of clubs){const name=c.name.trim(),key=name.toLocaleLowerCase('de').replace(/\s+/g,' ');if(!key||seen.has(key))continue;seen.add(key);options.push({key,name});}
+  select.innerHTML='<option value="">Kein Heimverein ausgewählt</option>'+options.map(c=>`<option value="${esc(c.key)}">${esc(c.name)}</option>`).join('');
+  select.value=seen.has(previous)?previous:'';settings.homeClub=select.value;
+ }
+ function readSettings(){
+  const s={...settings};for(const id of settingIds){const x=el(id);s[id]=x.type==='checkbox'?x.checked:x.type==='number'?Number(x.value):x.value;}
+  s.startTime=/^\d\d:\d\d$/.test(s.startTime)?s.startTime:'10:00';
+  for(const [id,min,max,def] of [['duration',1,60,8],['recovery',0,10,10],['fields',0,80,0]]){
+   s[id]=Number.isFinite(s[id])?Math.max(min,Math.min(max,Math.floor(s[id]))):def;
+  }
+  s.changeover=2;
+  s.fillMiniRounds=true;
+  return s;
+ }
+ function counters(){
+  el('statClubs').textContent=clubs.length;
+  el('statKids').textContent=clubs.reduce((n,c)=>n+Number(c.count||0),0);
+  el('clubCountBadge').textContent=plural(clubs.length,'Eintrag','Einträge');
+  el('statTeams').textContent=latest&&!stale?latest.teams.length:'–';
+  el('statFields').textContent=latest&&!stale?latest.fieldCount:'–';
+ }
+ function renderClubs(){
+  el('clubsBody').innerHTML=clubs.length?clubs.map((c,i)=>`<tr data-club="${esc(c.id)}"><td><span class="number-tag">${String(i+1).padStart(2,'0')}</span></td>
+   <td class="name-cell"><input type="text" data-field="name" aria-label="Verein ${i+1}" maxlength="100" placeholder="z. B. SV Musterstadt" value="${esc(c.name)}"></td>
+   <td><input class="player-input" type="number" data-field="count" min="1" max="999" step="1" value="${esc(c.count)}" aria-label="Kinderzahl ${i+1}"></td><td><input class="player-input" type="number" data-field="keepers" min="0" max="99" step="1" value="${esc(c.keepers)}" aria-label="Torhüter ${i+1}"></td>
+   <td class="label-cell"><input type="text" data-field="label" aria-label="Bezeichnung ${i+1}" placeholder="optional" maxlength="80" value="${esc(c.label)}"></td>
+   <td><button type="button" class="delete" aria-label="Eintrag ${i+1} entfernen" data-remove="${esc(c.id)}">×</button></td></tr>`).join('')
+   :'<tr><td colspan="6"><div class="empty-table"><span>⚽</span>Noch keine Vereine eingetragen.<br>Mit „Verein hinzufügen“ beginnt die Planung.</div></td></tr>';
+  counters();
+ }
+ function setExport(yes){for(const id of ['printTop','exportTop','printResult','csvResult'])el(id).disabled=!yes;}
+ function stalePlan(){stale=true;el('planError').classList.add('hidden');el('planError').textContent='';if(latest){el('resultsTrackingPanel').classList.add('hidden');el('staleMessage').classList.remove('hidden');setExport(false);}counters();}
+ function addClub(){const id=String(nextId++);clubs.push({id,name:'',count:7,keepers:1,label:''});renderClubs();renderHomeChoices();stalePlan();el('clubsBody').querySelector(`tr[data-club="${id}"] input[data-field="name"]`)?.focus();}
+ function example(){if(clubs.length&&!confirm('Aktuelle Eingaben durch Beispieldaten ersetzen?'))return;
+  clubs=[{id:String(nextId++),name:'SV Musterstadt',count:7,keepers:1,label:''},{id:String(nextId++),name:'FC Beispiel',count:7,keepers:1,label:''},{id:String(nextId++),name:'TSV Grünfeld',count:7,keepers:1,label:''},{id:String(nextId++),name:'SC Weststadt',count:7,keepers:1,label:''}];
+  renderClubs();renderHomeChoices();generate();
+ }
+ function reset(){if(!confirm('Alle Vereine und Einstellungen zurücksetzen?'))return;clubs=[];latest=null;scoreData.clear();roundStates.clear();trackResults=false;el('trackResults').checked=false;stale=false;settings={...FVMCore.DEFAULTS};applySettings();renderClubs();renderHomeChoices();el('results').classList.add('hidden');el('planError').classList.add('hidden');el('planError').textContent='';setExport(false);}
+ function validate(){
+  if(!clubs.length){addClub();alert('Bitte trage mindestens einen Verein ein.');return false;}
+  for(const c of clubs){if(c.name.trim()&&Number.isInteger(Number(c.count))&&c.count>=1&&c.count<=999&&Number.isInteger(Number(c.keepers))&&c.keepers>=0&&c.keepers<=c.count)continue;
+   const tr=[...el('clubsBody').querySelectorAll('tr[data-club]')].find(x=>x.dataset.club===c.id);
+   const input=tr?.querySelector(`input[data-field="${!c.name.trim()?'name':!(Number.isInteger(c.count)&&c.count>=1&&c.count<=999)?'count':'keepers'}"]`);input?.focus();input?.setAttribute('aria-invalid','true');
+   alert('Bitte gültige Vereinsnamen, Kinderzahlen und eine Torwartzahl zwischen 0 und der Kinderzahl eingeben.');return false;}
+  if(clubs.reduce((n,c)=>n+c.count,0)>4000){alert('Bitte höchstens 4000 Kinder pro Planung eingeben.');return false;}
+  return true;
+ }
+ function generate(){if(!validate())return;settings=readSettings();applySettings();latest=FVMCore.buildPlan(clubs,settings);scoreData.clear();roundStates.clear();stale=false;lastUpdatedRound=0;lastChangeSummary='';
+  renderPlan(latest);renderFieldLayout(latest);renderPrintSheet(latest);renderTrackingPanel();el('results').classList.remove('hidden');el('staleMessage').classList.add('hidden');setExport(Boolean(latest.publishable&&latest.games.length));counters();
+  el('results').scrollIntoView({behavior:'smooth',block:'start'});
+ }
+ function renderFieldLayout(p){
+  const miniCount=Math.max(0,p.fieldCount-1),shown=Math.min(miniCount,3);
+  el('layoutLead').textContent=`Aufbau auf einem Sportplatz von ca. 60 × 105 m · 1 Großfeld und ${shown} Minifeld${shown===1?'':'er'}.`;
+  // Portrait physical scale: 10 SVG units represent one metre (60m x 105m).
+  const slots=[{x:25,y:410,w:250,h:350},{x:325,y:410,w:250,h:350},{x:25,y:790,w:350,h:250}];
+  const miniSvg=slots.slice(0,shown).map((s,i)=>`<g><rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="7" fill="#e8f6e9" stroke="#278450" stroke-width="3"/><line x1="${s.x+(s.w/2)}" y1="${s.y}" x2="${s.x+(s.w/2)}" y2="${s.y+s.h}" stroke="#88bd94" stroke-width="2"/><text x="${s.x+13}" y="${s.y+28}" class="pitch-label">Feld ${i+2}</text><text x="${s.x+13}" y="${s.y+49}" class="pitch-sublabel">4vs4 · Minifeld</text><text x="${s.x+13}" y="${s.y+69}" class="pitch-small-label">35 × 25 m</text></g>`).join('');
+  const extra=miniCount>3?`<div class="extra-pitches"><b>Weitere ${miniCount-3} Minifeld${miniCount-3===1?'':'er'}: zusätzliche Fläche erforderlich</b><div class="extra-field-grid">${Array.from({length:miniCount-3},(_,i)=>`<span>Feld ${i+5} · Minifeld</span>`).join('')}</div></div>`:'';
+  el('fieldLayoutGraphic').innerHTML=`<svg viewBox="0 0 600 1050" role="img" aria-label="Hochkant-Aufbau auf einem 60 mal 105 Meter großen Fußballplatz"><rect x="2" y="2" width="596" height="1046" rx="8" fill="#d8f0df" stroke="#0c6b3d" stroke-width="3"/><rect x="25" y="25" width="550" height="350" rx="7" fill="#c2e5cd" stroke="#0b6b40" stroke-width="4"/><line x1="300" y1="25" x2="300" y2="375" stroke="#7db993" stroke-width="3"/><text x="43" y="59" class="pitch-label">Feld 1 · 6+1</text><text x="43" y="83" class="pitch-sublabel">Großfeld · 55 × 35 m</text>${miniSvg}<text x="386" y="1025" class="pitch-small-label">Sportplatz 60 × 105 m</text></svg>${extra}`;
+  el('fieldLayoutNote').textContent='Geometrischer Aufbau ohne verbindliche Sicherheitsabstände. Abstände zwischen Feldern, Toren und Zuschauern vor Ort prüfen.';
+ }
+ function editRound(roundNumber,container){
+  if(!latest||stale||!latest.publishable)return;
+  const a=container.querySelector('[data-edit-side="a"]')?.value;
+  const b=container.querySelector('[data-edit-side="b"]')?.value;
+  const msg=container.querySelector('.round-edit-result');
+  const result=FVMCore.updateBigRound(latest,roundNumber,a,b);
+  if(!result.ok){msg.className='round-edit-result error';msg.textContent=result.reason;return;}
+  latest=result.plan;retainMatchingScores(latest);lastUpdatedRound=roundNumber;
+  const related=result.changedRounds.filter(n=>n!==roundNumber);
+  lastChangeSummary=related.length?`Runde ${roundNumber} aktualisiert. Zusätzlich angepasst: ${related.map(n=>'Runde '+n).join(', ')}.`:`Runde ${roundNumber} aktualisiert.`;
+  renderPlan(latest);renderFieldLayout(latest);renderPrintSheet(latest);renderTrackingPanel();setExport(Boolean(latest.publishable&&latest.games.length));counters();
+  const anchor=el('round-'+roundNumber);
+  if(anchor)anchor.scrollIntoView({block:'center',behavior:'smooth'});
+ }
+ // Stable identifier for a fixture within its round. Editing a pairing invalidates its old score.
+ function gameKey(g){return `${g.round}|${g.field}|${g.venue==='big'?FVMCore.pairKey?.(g.a,g.b)||[g.a,g.b].sort((a,b)=>a-b).join('-'):[g.aGroup.id,g.bGroup.id].join('|')}`;}
+ function retainMatchingScores(p){const valid=new Set(p.games.map(gameKey));for(const k of scoreData.keys())if(!valid.has(k))scoreData.delete(k);for(const r of p.rounds)if(!p.games.some(g=>g.round===r.number&&scoreData.has(gameKey(g))))roundStates.delete(r.number);}
+ function renderScoreInputs(p,r){
+  const items=p.games.filter(g=>g.round===r.number&&g.venue==='big');
+  const inputs=items.map(g=>{
+   const key=gameKey(g),score=scoreData.get(key), a=g.venue==='big'?p.teams[g.a].name:g.aGroup.name,b=g.venue==='big'?p.teams[g.b].name:g.bGroup.name;
+   return `<div class="score-row" data-game-key="${esc(key)}"><strong>Feld ${g.field}</strong><div class="score-pair"><span class="score-name">${esc(a)}</span><input class="score-input" type="number" inputmode="numeric" min="0" max="99" placeholder="–" aria-label="Tore ${esc(a)} Feld ${g.field}" data-score-side="a" value="${score?score.a:''}"><span class="score-separator">:</span><input class="score-input" type="number" inputmode="numeric" min="0" max="99" placeholder="–" aria-label="Tore ${esc(b)} Feld ${g.field}" data-score-side="b" value="${score?score.b:''}"><span class="score-name">${esc(b)}</span></div><span class="score-status">${score?'gespeichert':'offen'}</span></div>`;
+  }).join('');
+  const state=roundStates.get(r.number)||'geplant';
+  return `<div class="score-editor" data-score-round="${r.number}">${inputs}<div class="score-round-tools"><span class="score-state">${state==='beendet'?'✓ Runde beendet':state==='aktiv'?'● Runde aktiv':'○ Noch nicht gestartet'}</span><button class="btn btn-sm" data-score-action="start" data-score-round="${r.number}">Runde starten</button><button class="btn btn-sm btn-primary" data-score-action="save" data-score-round="${r.number}">Ergebnisse speichern</button><button class="btn btn-sm" data-score-action="finish" data-score-round="${r.number}">Runde beenden</button></div></div>`;
+ }
+ function scoreFacts(p,g){
+  // A mini-group may contain children from several 6+1 squads of the same club.
+  // Attribute its result to that CLUB, never arbitrarily to a big-field squad.
+  if(g.venue==='big')return {clubA:p.teams[g.a].clubId,clubB:p.teams[g.b].clubId,teamA:g.a,teamB:g.b};
+  return {clubA:g.aGroup.clubId,clubB:g.bGroup.clubId,teamA:null,teamB:null};
+ }
+ function computeRankings(p){
+  const clubStats=new Map(p.roster.clubs.filter(c=>c.teamIds.length).map(c=>[c.id,{id:c.id,name:c.name,played:0,w:0,d:0,l:0,gf:0,ga:0,points:0}]));
+  const teamStats=new Map(p.teams.map(t=>[t.id,{id:t.id,name:t.name,played:0,w:0,d:0,l:0,gf:0,ga:0,points:0}]));
+  function apply(a,b,x,y){if(!a||!b||a===b)return;for(const [r,ours,theirs] of [[a,x,y],[b,y,x]]){r.played++;r.gf+=ours;r.ga+=theirs;if(ours>theirs){r.w++;r.points+=3;}else if(ours===theirs){r.d++;r.points++;}else r.l++;}}
+  for(const g of p.games){if(g.venue!=='big')continue;const s=scoreData.get(gameKey(g));if(!s)continue;const f=scoreFacts(p,g);apply(clubStats.get(f.clubA),clubStats.get(f.clubB),s.a,s.b);apply(teamStats.get(f.teamA),teamStats.get(f.teamB),s.a,s.b);}
+  const rank=list=>[...list.values()].sort((a,b)=>b.points-a.points||(b.gf-b.ga)-(a.gf-a.ga)||b.gf-a.gf||a.name.localeCompare(b.name,'de'));
+  return {clubs:rank(clubStats),teams:rank(teamStats)};
+ }
+ function renderTrackingPanel(){
+  const panel=el('resultsTrackingPanel');panel.classList.toggle('hidden',!trackResults||!latest||!latest.publishable);
+  if(!trackResults||!latest||!latest.publishable)return;
+  const ranking=computeRankings(latest),bigGames=latest.games.filter(g=>g.venue==='big'),scored=bigGames.filter(g=>scoreData.has(gameKey(g))).length;
+  el('trackingStatus').textContent=`${scored} von ${bigGames.length} Großfeldergebnissen erfasst · Rangfolge nach Punkten, Tordifferenz, erzielten Toren.`;
+  const row=(x,i,team)=>`<tr><td>${i+1}</td><td><b>${esc(x.name)}</b></td><td class="numeric">${x.played}</td>${team?'':`<td class="numeric">${x.w}</td><td class="numeric">${x.d}</td><td class="numeric">${x.l}</td>`}<td class="numeric">${x.gf}:${x.ga}</td><td class="numeric">${x.gf-x.ga>0?'+':''}${x.gf-x.ga}</td><td class="numeric"><b>${x.points}</b></td></tr>`;
+  el('clubRankingRows').innerHTML=ranking.clubs.map((x,i)=>row(x,i,false)).join('');
+  el('bigRankingRows').innerHTML=ranking.teams.map((x,i)=>row(x,i,true)).join('');
+ }
+ function updateScoreRound(n,action){
+  if(!latest||!latest.publishable||!trackResults||stale)return;
+  const container=el('scheduleRounds').querySelector(`[data-score-round="${n}"].score-editor`);
+  if(!container)return;
+  if(action==='start'){roundStates.set(n,'aktiv');}
+  else if(action==='save'||action==='finish'){
+   const changes=[];
+   for(const line of container.querySelectorAll('[data-game-key]')){
+    const key=line.dataset.gameKey, a=line.querySelector('[data-score-side="a"]').value.trim(),b=line.querySelector('[data-score-side="b"]').value.trim();
+    if(!a&&!b){changes.push({key,score:null});continue;}
+    if(!/^(?:0|[1-9]\d?)$/.test(a)||!/^(?:0|[1-9]\d?)$/.test(b)){alert('Bitte für jedes Ergebnis beide Torzahlen zwischen 0 und 99 angeben. Leere Paarungen bleiben offen.');return;}
+    changes.push({key,score:{a:Number(a),b:Number(b)}});
+   }
+   if(action==='finish'&&changes.some(c=>!c.score)){alert('Bitte vor dem Beenden alle Ergebnisse dieser Runde eintragen.');return;}
+   for(const item of changes){if(item.score)scoreData.set(item.key,item.score);else scoreData.delete(item.key);}
+   roundStates.set(n,action==='finish'?'beendet':'aktiv');
+  }
+  renderPlan(latest);renderTrackingPanel();renderPrintSheet(latest);
+  const round=el('round-'+n);if(round)round.scrollIntoView({behavior:'smooth',block:'nearest'});
+ }
+ function renderPlan(p){
+  const children=p.teams.reduce((n,t)=>n+t.size,0);
+  el('resultLead').textContent=p.publishable?`${plural(p.teams.length,'6+1-Team','6+1-Teams')} · ${children} eingeplante Kinder · alle ${p.rounds.length} Runden ohne Warte-Teams`+(p.homeClub?` · Heimverein: ${p.homeClub} (${p.homeBigMatches} Großfeldspiele gesamt)`:''):'Keine Freigabe: Mindestens zwei Großfeldspiele je Team sind verpflichtend.';
+  const stats=[
+   {n:p.fieldCount,l:'Spielfelder',hint:`davon ${Math.max(0,p.fieldCount-1)} Minifelder`},
+   {n:p.bigMatchCount,l:'Großfeldspiele',hint:`${p.distinctPairs}/${p.totalPotential} vereinsübergreifende Paarungen`},
+   {n:p.miniMatchCount,l:'Minifeldspiele',hint:`${p.repeatMiniCount} Wiederholungen · ${p.threeMatchCount} reduzierte Besetzungen`},
+   {n:p.rounds.length?fmtDuration(p.totalMinutes):'0 Min.',l:'Gesamtdauer',hint:`${p.start}–${p.finish} Uhr · max. 90 Min.`}
+  ];
+  el('resultStats').innerHTML=stats.map(x=>`<div class="result-stat"><div class="number">${esc(x.n)}</div><label>${esc(x.l)}</label><small>${esc(x.hint)}</small></div>`).join('');
+  const status=el('planError');
+  if(!p.publishable){
+   const reason=p.issues.find(x=>x.type==='error')?.text || 'Kein gültiger Spielplan möglich: Nicht jedes Großfeldteam erreicht zwei Spiele. Bitte Kinderzahl oder verfügbare Felder prüfen.';
+   status.textContent=reason;
+   status.classList.remove('hidden');
+  }else{status.textContent='';status.classList.add('hidden');}
+  el('fieldSummary').textContent='Feld 1 für 6+1 · weitere Felder für 4vs4, nötigenfalls reduziert besetzt. Bei reinen Minifeldrunden bleibt Feld 1 frei.';
+  el('fieldCards').innerHTML=p.fields.map(f=>`<div class="field-card ${f.type==='big'?'field-big':'fieldcard-mini'} ${f.matches===0?'unused':''}"><div class="field-number">${f.id}</div><div><b>Feld ${f.id} · ${f.name}</b><p>${f.type==='big'?'6+1 · ca. 55 × 35 m':'4vs4 · ca. 35 × 25 m'}</p><span class="count">${plural(f.matches,'Spiel','Spiele')}</span></div></div>`).join('')||'<div class="empty-result">Noch keine Felder zu berechnen.</div>';
+  el('fieldGear').textContent=`Benötigte Tore: ${p.fieldCount?2:0} Kleinfeldtore + ${Math.max(0,p.fieldCount-1)*4} Minitore. Empfehlung: ${p.recommendation.recommended} Felder bei automatischer Planung.`;
+  el('teamSummary').textContent='7–11 Kinder: ein Großfeldteam; ab 12: zwei Großfeldteams. Bei 12 / 13 Kindern helfen zwei / ein Springer aus dem Schwesterteam aus. Mindestens zwei 6+1-Spiele je Team.';
+  el('teamRows').innerHTML=p.teams.map(t=>{
+   const loan=t.borrowCount||0;
+   const big=loan?`${t.size} Stammkinder + ${loan} Springer aus ${p.teams[t.rollingKeeperBorrowFrom].name}`:
+    t.rollingKeeperLendsTo!==undefined?`${t.size} Stammkinder · stellt bei Bedarf Springer für ${p.teams[t.rollingKeeperLendsTo].name}`:
+    `7 aktiv + ${Math.max(0,Math.min(t.size,10)-7)} Wechselspieler`;
+   const keepers=p.roster.clubs.find(c=>c.id===t.clubId)?.keepers??0;
+   return `<tr><td><div class="squad-name">${esc(t.name)}</div><div class="squad-origin">${esc(t.club)} · ${keepers} TW gemeldet</div></td><td class="numeric"><b>${t.size}</b></td>
+    <td><span class="role both">Großfeld: ${esc(big)}</span><div class="squad-origin">Ohne Großfeld: vereinsreine Minifeldgruppen. 8–11 Kinder → bevorzugt 2 Gruppen; 12–15 Kinder → 2 oder 3 Gruppen, je nach Platzbelegung.</div></td></tr>`;
+  }).join('')||'<tr><td colspan="3">Keine spielberechtigten Teams.</td></tr>';
+  const grouped=new Map();for(const t of p.teams){const x=grouped.get(t.club)||{name:t.club,kids:0,bigTeams:0,bigGames:0,isHome:p.homeClub&&t.club===p.homeClub};x.kids+=t.size;x.bigTeams++;grouped.set(t.club,x);}for(const t of p.perTeam){const x=grouped.get(t.club);if(x)x.bigGames+=t.big;}
+  const groupedList=[...grouped.values()].sort((a,b)=>{if(a.isHome&&!b.isHome)return -1;if(!a.isHome&&b.isHome)return 1;return b.bigGames-a.bigGames||a.name.localeCompare(b.name,'de');});
+  el('clubMiniOverview').innerHTML='<b>Vereinsaufteilung:</b><div class="formula">'+groupedList.map(c=>`${esc(c.name)}${c.isHome?' <b>(Heimverein)</b>':''}: ${c.kids} Kinder · <b>${c.bigTeams}</b> Großfeldteam${c.bigTeams===1?'':'s'} · bei vollständiger 4vs4-Verfügbarkeit ${FVMCore.miniOptions(c.kids).join('–')||'0'} Minigruppen`).join('<br>')+'</div><div class="formula club-total-grid"><b>6+1-Spiele je Verein:</b><br>'+groupedList.map(c=>`${esc(c.name)}${c.isHome?' <b>(Heimverein)</b>':''}: <b>${c.bigGames}</b> Großfeldspiel${c.bigGames===1?'':'e'}`).join('<br>')+'</div>';
+  if(p.roster.unassigned.length){el('unassigned').innerHTML=`<b>Nicht planbar (unter 7 Kinder):</b> ${p.roster.unassigned.map(x=>`${esc(x.name)} (${x.count})`).join(', ')}`;el('unassigned').classList.remove('hidden');}else el('unassigned').classList.add('hidden');
+  el('scheduleLead').textContent=p.publishable?`${p.rounds.length} vollständige Runden à ${p.settings.duration} Minuten; ${p.bigMatchCount} 6+1-Spiele, ${p.miniMatchCount-p.threeMatchCount} 4vs4-Spiele, ${p.threeMatchCount} Spiele mit reduzierter Besetzung; Mischteams nur im Notfall; insgesamt ${p.totalMinutes}/90 Minuten mit Pausen.`:'Kein freigegebener Spielplan. Bitte den Fehler direkt unter „Spielplan berechnen“ prüfen.';
+  const fmtGroup=g=>`${esc(g.name)}<small class="group-detail">${g.size} Kinder: ${g.active} spielen${g.rotators?` + ${g.rotators} Rotation`:''}</small>`;
+  const gameRow=(field,venue,an,bn)=>`<div class="game-row"><div class="fieldname">Feld ${field}<small>${venue==='big'?'6+1 · Großfeld':venue+' · Minitore'}</small></div><span class="a">${an}</span><span class="vs">vs.</span><span class="b">${bn}</span></div>`;
+  el('scheduleRounds').innerHTML=!p.rounds.length?'<div class="no-results">Kein vollständig belegbarer Spielplan möglich. Bitte die Kinderzahlen bzw. Spielfelder anpassen.</div>':p.rounds.map((r,i)=>{
+   let head=`<div class="round-heading"><b>Runde ${i+1}${!r.big?' · nur Minifelder':''}</b><div class="round-header-meta"><span class="badge-time">${r.begin}–${r.end} Uhr</span></div></div>`;
+   let bp=r.bigPlayers;
+   const bigText=(tid)=>{const b=bp.find(x=>x.team===tid);const keeper=b.keeperBorrowed?` · ${b.keeperBorrowed.count} Springer aus ${p.teams[b.keeperBorrowed.fromTeam].name}`:'';return esc(p.teams[tid].name)+`<small class="group-detail">${b.players.length} Kinder (${b.rotation} Wechsel)${esc(keeper)}</small>`;};
+   let big=r.big?gameRow(1,'big',bigText(r.big.a),bigText(r.big.b)):'';
+   let mini=r.mini.map(m=>gameRow(m.field,modeLabel(m.mode),fmtGroup(m.aGroup),fmtGroup(m.bGroup))).join('');
+   let pause=i===2&&p.rounds.length>=4?`<div class="break-row official-pause">☕ PAUSE zwischen Runde 3 und 4 · ${Math.max(p.settings.recovery,p.settings.changeover)} Minuten · ${r.end}–${p.rounds[3].begin} Uhr</div>`:'';
+   let label=`<div class="round-note">✓ Alle ${r.assigned} Kinder eingesetzt · ${r.mini.length} Minifeld-Begegnung${r.mini.length===1?'':'en'}${!r.big?' · Großfeld frei':''}</div>`;
+   const editable=p.publishable&&r.big;
+   const names=p.teams.map(t=>({id:t.id,name:t.name}));
+   const options=(selected)=>names.map(t=>`<option value="${t.id}"${t.id===selected?' selected':''}>${esc(t.name)}</option>`).join('');
+   const editor=editable?`<details class="round-edit no-print" data-edit-round="${r.number}"><summary class="round-edit-caption">6+1-Begegnung bearbeiten${(p.editedRounds||[]).includes(i)?' · manuell angepasst':''}</summary><div class="round-edit-controls"><div class="round-edit-field"><label for="edit-a-${r.number}">Mannschaft A</label><select id="edit-a-${r.number}" data-edit-side="a">${options(r.big.a)}</select></div><div class="round-edit-field"><label for="edit-b-${r.number}">Mannschaft B</label><select id="edit-b-${r.number}" data-edit-side="b">${options(r.big.b)}</select></div><button class="btn btn-primary btn-sm" type="button" data-update-round="${r.number}">Runde aktualisieren</button></div><div class="round-edit-result ${lastUpdatedRound===r.number?'success':''}" role="status" aria-live="polite">${lastUpdatedRound===r.number?esc(lastChangeSummary)+' Spielplan und Export sind aktualisiert.':''}</div><p class="round-edit-help">Minifeldspiele werden neu verteilt; bei Bedarf werden auch weitere Runden angepasst. Zwei Großfeldspiele pro Team bleiben Pflicht.</p></details>`:'';
+   const scores=trackResults&&r.big?renderScoreInputs(p,r):'';
+   return `<div class="round-block ${(p.editedRounds||[]).includes(i)?'manually-edited':''}" id="round-${r.number}">${head}${big}${editor}${mini}${scores}${label}${pause}</div>`;
+  }).join('');
+  el('deploymentRows').innerHTML=p.perTeam.map(t=>`<tr><td><b>${esc(t.name)}</b><small class="group-detail">${t.size} Kinder</small></td>
+   <td class="numeric"><b class="${t.big<2?'error-text':'success-text'}">${t.big}</b></td><td class="numeric">${t.miniRounds}</td><td class="numeric">${t.miniGames}</td><td class="numeric">${t.gameCount}/${p.rounds.length}</td>
+   <td class="numeric">bis ${t.minutes} ${p.settings.strict60?'/ 60':'(60 FVM)'} Min.</td></tr>`).join('')||'<tr><td colspan="6">Keine Einsätze ermittelt.</td></tr>';
+ }
+ function scoreColumns(g){const score=scoreData.get(gameKey(g));return [score?.a??'',score?.b??'',roundStates.get(g.round)||'geplant'];}
+ const csvCell=x=>'"'+String(x??'').replace(/"/g,'""')+'"';
+ function downloadCSV(){if(!latest||stale||!latest.publishable||!latest.games.length)return;
+  const rows=[['Runde','Spielzeit','Spielfeld','Spielform','Mannschaft A','Mannschaft B','Kinder gesamt A','Aktiv A','Wechsel A','Kinder gesamt B','Aktiv B','Wechsel B','Torwart-Hinweis A','Torwart-Hinweis B',...(trackResults?['Tore A','Tore B','Ergebnisstatus']:[])]];
+  for(const g of latest.games){
+   if(g.venue==='big'){
+    const a=latest.teams[g.a],b=latest.teams[g.b],r=latest.rounds[g.round-1];
+    const pa=r.bigPlayers.find(x=>x.team===a.id),pb=r.bigPlayers.find(x=>x.team===b.id);
+    rows.push([g.round,`${g.begin} - ${g.end}`,`Feld ${g.field}`,'6+1',a.name,b.name,pa.players.length,7,pa.rotation,pb.players.length,7,pb.rotation,pa.keeperBorrowed?`${pa.keeperBorrowed.count} Springer aus ${latest.teams[pa.keeperBorrowed.fromTeam].name}`:'',pb.keeperBorrowed?`${pb.keeperBorrowed.count} Springer aus ${latest.teams[pb.keeperBorrowed.fromTeam].name}`:'',...(trackResults?scoreColumns(g):[])]);
+   }else{
+    const a=g.aGroup,b=g.bGroup;
+    rows.push([g.round,`${g.begin} - ${g.end}`,`Feld ${g.field}`,modeLabel(g.mode)+(g.repeated?' (Wdh.)':''),a.name,b.name,a.size,a.active,a.rotators,b.size,b.active,b.rotators,'','',...(trackResults?['','','']:[])]);
+   }
+  }
+  const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(';')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='FVM_E1_Spielefest_Spielplan.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }
+ function renderPrintSheet(p){
+  const summary=[`<span><b>Beginn:</b> ${esc(p.start)} Uhr</span>`,`<span><b>Ende:</b> ${esc(p.finish)} Uhr</span>`,`<span><b>Gesamtdauer:</b> ${p.totalMinutes}/90 Min.</span>`,`<span><b>Felder:</b> ${p.fieldCount}</span>`,`<span><b>Runden:</b> ${p.rounds.length}</span>`];
+  if(p.homeClub)summary.push(`<span><b>Heimverein:</b> ${esc(p.homeClub)}</span>`);
+  el('printMeta').innerHTML=summary.join('');
+  const sourcePitch=el('fieldLayoutGraphic');
+  el('printPitchGraphic').innerHTML=(sourcePitch.querySelector('svg')?.outerHTML||'')+(sourcePitch.querySelector('.extra-pitches')?.outerHTML||'');
+  el('printFieldList').innerHTML=p.fields.map(f=>`<div><b>Feld ${f.id}</b> · ${f.type==='big'?'6+1 · 55 × 35 m':'4vs4 · 35 × 25 m'} · ${f.matches} Spiele</div>`).join('');
+  el('printRoundPages').innerHTML=p.rounds.map(r=>{
+   const entries=[];
+   if(r.big){
+    const a=p.teams[r.big.a],b=p.teams[r.big.b];
+    const aa=r.bigPlayers.find(x=>x.team===a.id),bb=r.bigPlayers.find(x=>x.team===b.id);
+    entries.push({field:1,type:'6+1',score:scoreData.get(gameKey(p.games.find(g=>g.round===r.number&&g.field===1))),a:{name:a.name,total:aa.players.length,active:7,rotation:aa.rotation,keeper:aa.keeperBorrowed?`${aa.keeperBorrowed.count} Springer aus ${p.teams[aa.keeperBorrowed.fromTeam].name}`:''},b:{name:b.name,total:bb.players.length,active:7,rotation:bb.rotation,keeper:bb.keeperBorrowed?`${bb.keeperBorrowed.count} Springer aus ${p.teams[bb.keeperBorrowed.fromTeam].name}`:''}});
+   }
+   for(const m of r.mini)entries.push({field:m.field,type:modeLabel(m.mode)+(m.repeated?' (Wdh.)':''),score:null,a:{name:m.aGroup.name,total:m.aGroup.size,active:m.aGroup.active,rotation:m.aGroup.rotators},b:{name:m.bGroup.name,total:m.bGroup.size,active:m.bGroup.active,rotation:m.bGroup.rotators}});
+   const printTeam=g=>`<span class="print-team-name">${esc(g.name)}</span><span class="print-team-count">${g.total} Kinder · ${g.active} spielen · ${g.rotation} Wechsel${g.keeper?` · ${esc(g.keeper)}`:''}</span>`;
+   const lines=entries.map(g=>`<tr class="${g.type==='6+1'?'round-big':''}"><td><b>Feld ${g.field}</b></td><td>${esc(g.type)}${trackResults&&g.score?`<div style="font-weight:800;color:#0a703d">${g.score.a}:${g.score.b}</div>`:''}</td><td>${printTeam(g.a)}</td><td>${printTeam(g.b)}</td></tr>`).join('');
+   const density=entries.length>24?'very-dense':entries.length>12?'dense':'';
+   const pauseLabel=r.number===4?`<div class="print-pause-banner">☕ PAUSE zwischen Runde 3 und 4 · ${Math.max(p.settings.recovery,p.settings.changeover)} Minuten · ${p.rounds[2].end}–${r.begin} Uhr</div>`:'';
+   return `<article class="print-round-page ${density}">${pauseLabel}<div class="print-round-heading"><h2>Runde ${r.number}</h2><div class="round-time">${esc(r.begin)}–${esc(r.end)} Uhr</div></div><p class="print-round-sub">${p.homeClub?`Heimverein: ${esc(p.homeClub)} · `:''}${r.mini.length} Minifeld-Begegnungen${r.big?' · 1 Großfeld-Begegnung':' · kein Großfeldspiel'}</p><table class="print-round-table"><thead><tr><th>Spielfeld</th><th>Modus</th><th>Team A · Kinder</th><th>Team B · Kinder</th></tr></thead><tbody>${lines}</tbody></table></article>`;
+  }).join('');
+ }
+ function downloadRulesPDF(){
+  const encoded=el('rulesPdfBase64').textContent.trim();
+  const binary=atob(encoded),size=binary.length,bytes=new Uint8Array(size);
+  for(let i=0;i<size;i++)bytes[i]=binary.charCodeAt(i);
+  const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+  const a=document.createElement('a');a.href=url;a.download='FVM_Durchfuehrungsbestimmungen_E1_Jugend.pdf';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),30000);
+ }
+ function printPlan(){if(latest&&!stale&&latest.publishable&&latest.games.length)window.print();}
+ function bind(){
+  el('addClub').addEventListener('click',addClub);el('example').addEventListener('click',example);el('reset').addEventListener('click',reset);
+  el('generate').addEventListener('click',generate);el('rulesDownload').addEventListener('click',downloadRulesPDF);
+  for(const id of ['printTop','printResult'])el(id).addEventListener('click',printPlan);
+  for(const id of ['exportTop','csvResult'])el(id).addEventListener('click',downloadCSV);
+  el('jumpSchedule').addEventListener('click',()=>el('matchSection').scrollIntoView({behavior:'smooth',block:'start'}));
+  el('scheduleRounds').addEventListener('click',e=>{const score=e.target.closest('button[data-score-action]');if(score){updateScoreRound(Number(score.dataset.scoreRound),score.dataset.scoreAction);return;}const btn=e.target.closest('button[data-update-round]');if(!btn)return;const editor=btn.closest('[data-edit-round]');if(editor)editRound(Number(btn.dataset.updateRound),editor);});
+  el('trackResults').addEventListener('change',e=>{trackResults=e.target.checked;if(latest&&!stale){renderPlan(latest);renderTrackingPanel();renderPrintSheet(latest);}});
+  el('clubsBody').addEventListener('input',e=>{const input=e.target;if(!input.matches('input[data-field]'))return;let row=input.closest('tr[data-club]'),c=clubs.find(z=>z.id===row?.dataset.club);if(!c)return;
+   c[input.dataset.field]=input.dataset.field==='count'?(input.value===''?0:Number(input.value)):input.value;
+   input.removeAttribute('aria-invalid');if(input.dataset.field==='name')renderHomeChoices();stalePlan();});
+  el('clubsBody').addEventListener('click',e=>{const btn=e.target.closest('button[data-remove]');if(!btn)return;clubs=clubs.filter(x=>x.id!==btn.dataset.remove);renderClubs();renderHomeChoices();stalePlan();});
+  for(const id of settingIds){let x=el(id);x.addEventListener('change',()=>{settings=readSettings();stalePlan();});if(x.type!=='checkbox')x.addEventListener('input',stalePlan);}
+ }
+ applySettings();renderClubs();renderHomeChoices();setExport(false);bind();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+ window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => {}));
+}
+</script>
+</body>
+</html>

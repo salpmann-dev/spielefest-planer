@@ -1,0 +1,11 @@
+FVM E1-Spielefest-Planer – iPhone Home-Screen-App
+
+1. Inhalt dieses Ordners unverändert auf einen HTTPS-Webhost hochladen (z.B. GitHub Pages oder Netlify).
+2. Die veröffentlichte https://.../index.html im Safari auf dem iPhone öffnen.
+3. Teilen-Symbol -> Zum Home-Bildschirm -> Hinzufügen.
+4. Die Kachel "Spielefest" öffnen. Nach dem ersten Laden kann die App dank Service Worker offline genutzt werden.
+
+Wichtig: Nur die HTML-Datei lokal in Dateien/Safari zu öffnen installiert keine zuverlässig offline-fähige Web-App. Die PWA-Funktionen brauchen HTTPS.
+Wie bisher werden Vereinsdaten und Spielergebnisse nicht dauerhaft gespeichert. Nach Schließen/Neuladen kann der Plan wieder leer sein.
+
+FVM E1-Durchführungsbestimmungen sind bereits im HTML eingebettet.
